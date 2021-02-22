@@ -47,8 +47,7 @@ void setup() {
   Serial.println("Temperature Sensor");
   // 初始化
   sensors.begin();
-
-  Serial.print("開始連線到無線網路SSID:");
+  Serial.print("SSID:");
   Serial.println(ssid);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -56,7 +55,7 @@ void setup() {
     Serial.print(".");
     delay(1000);
   }
-  Serial.println("連線完成");
+  Serial.println("Network is Ready");
   dht.begin();
 }
 
@@ -89,38 +88,29 @@ void loop() {
   lcd.print(tempf);
   lcd.print("F"); 
 
-
-
-  
-
-  //delay(20000);//休息20秒
-
   now = millis();
   
   if((now-start) > 20000)
   {
         start = now;
-      //開始傳送到thingspeak
+      //thingspeak
       digitalWrite(BIN_LED,HIGH);
-      Serial.println("啟動網頁連線");
+      Serial.println("Uploading");
       HTTPClient http;
-      //將溫度及濕度以http get參數方式補入網址後方
       String url1 = url + "&field1=" + (int)t + "&field2=" + (int)h;
       url1 = url1 + "&field3=" + (int)tempc + "&field4=" + (int)tempf;
-      //http client取得網頁內容
+      //http client
       http.begin(url1);
       int httpCode = http.GET();
       if (httpCode == HTTP_CODE_OK)      
       {
-        //讀取網頁內容到payload
-        String payload = http.getString();
-        //將內容顯示出來
-        Serial.print("網頁內容=");
-        Serial.println(payload);
+        String feedback = http.getString();
+        Serial.print("Feedback＝");
+        Serial.println(feedback);
       } 
       else 
       {
-        Serial.println("網路傳送失敗");
+        Serial.println("Network Error");
       }
       http.end();
   }
