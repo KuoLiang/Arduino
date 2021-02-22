@@ -6,6 +6,10 @@
 // constants won't change. They're used here to set pin numbers:
 const int buttonPinR = 12;     // the number of the pushbutton pin
 const int buttonPinW = 11;     // the number of the pushbutton pin
+const int LIGHT = 0;     // the number of the pushbutton pin
+const int THOLD = 300;     // the threshold of yellow light
+
+
 
 const int ledPin =  13;      // the number of the LED pin
 const int ledPinR =  4;      // the number of the LED pin
@@ -19,8 +23,8 @@ int buttonStateW = 0;         // variable for reading the pushbutton status
 
 
 void setup() {
+  Serial.begin(9600);
   // initialize the LED pin as an output:
-  pinMode(ledPin, OUTPUT);
   pinMode(ledPinR, OUTPUT);
   pinMode(ledPinY, OUTPUT);
   pinMode(ledPinG, OUTPUT);
@@ -30,6 +34,8 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(analogRead(LIGHT));
+  
   // read the state of the pushbutton value:
   buttonStateR = digitalRead(buttonPinR);
   buttonStateW = digitalRead(buttonPinW);
@@ -50,4 +56,13 @@ void loop() {
     // turn LED off:
     digitalWrite(ledPinG, LOW);
   }
+  //==================
+  if(analogRead(LIGHT)<=THOLD)
+  {
+    digitalWrite(ledPinY, HIGH);
+  } else {
+    // turn LED off:
+    digitalWrite(ledPinY, LOW);
+  }
+  delay(1000);
 }
