@@ -10,9 +10,7 @@
 #include <Wire.h> // Library for I2C communication
 #include <LiquidCrystal_I2C.h> // Library for LCD
 //=======================================================
-char ssid[] = "RyanRoy";
-char password[] = "3838383838";
-String url = "http://api.thingspeak.com/update?api_key=4LEMK7ADTGWLC6CX";
+#include "wifi_connection.h"
 //=======================================================
 // one_wire for d18 temp
 //=======================================================
@@ -89,10 +87,6 @@ void loop() {
   lcd.print(tempf);
   lcd.print("F"); 
 
-
-
-  
-
   //delay(20000);//休息20秒
 
   now = millis();
@@ -112,15 +106,16 @@ void loop() {
       int httpCode = http.GET();
       if (httpCode == HTTP_CODE_OK)      
       {
-        //讀取網頁內容到payload
-        String payload = http.getString();
+        //讀取網頁內容
+        String ts_feedback = http.getString();
         //將內容顯示出來
         Serial.print("網頁內容=");
-        Serial.println(payload);
+        Serial.println(ts_feedback);
       } 
       else 
       {
         Serial.println("網路傳送失敗");
+        digitalWrite(BIN_LED,HIGH);
       }
       http.end();
   }
