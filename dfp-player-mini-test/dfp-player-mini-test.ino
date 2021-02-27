@@ -13,7 +13,7 @@ void setup()
   Serial.println("Initializing DFPlayer ... (May take 1-2 seconds)");
   myDFPlayer.begin(myHardwareSerial);//將DFPlayer播放器宣告在HardwareSerial控制
   delay(500);
-  myDFPlayer.volume(10);  //設定聲音大小（0-30）
+  myDFPlayer.volume(25);  //設定聲音大小（0-30）
   Serial.println("test1");
   //myDFPlayer.playMp3Folder(1);  //播放mp3內的0001.mp3 3秒鐘
   myDFPlayer.play(1);
