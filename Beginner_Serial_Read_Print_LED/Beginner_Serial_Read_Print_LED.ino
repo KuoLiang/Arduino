@@ -22,12 +22,12 @@ void loop() {
   }
   //Serial.print("test");
   digitalWrite(13,HIGH);
-  delay(1000);
+  delay(10);
   digitalWrite(13,false);
-  delay(1000);
+  delay(100);
 
   digitalWrite(2,HIGH);
-  delay(1000);
+  delay(10);
   digitalWrite(2,false);
-  delay(1000);
+  delay(10);
 }
