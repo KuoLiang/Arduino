@@ -1,20 +1,28 @@
-#include <Unistep2.h>
+#include <Stepper.h>
 
-Unistep2 stepper(8, 9, 10, 11, 4096, 1000);// IN1, IN2, IN3, IN4, 總step數, 每步的延遲(in micros)
+const int stepsPerRevolution = 2048;  
+// change this to fit the number of steps per revolution
+// for your motor
 
-void setup()
-{
+// initialize the stepper library on pins 8 through 11:
+Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);
 
+void setup() {
+  // set the speed rpm:
+  myStepper.setSpeed(10);
+  // initialize the serial port:
+  Serial.begin(9600);
 }
 
-void loop()
-{
-  stepper.run();  //步進機啟動
+void loop() {
+  // step one revolution  in one direction:
+  Serial.println("clockwise");
+  myStepper.step(stepsPerRevolution);
+  delay(500);
 
-  if ( stepper.stepsToGo() == 0 ){ // 還剩幾步沒走完
-    delay(500);
-    stepper.move(4096);    //正轉
-    //stepper.move(-4096);  //負數就是反轉
-  }
-
+  // step one revolution in the other direction:
+  Serial.println("counterclockwise");
+  myStepper.step(-stepsPerRevolution);
+  delay(500);
+  
 }
