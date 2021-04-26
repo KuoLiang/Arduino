@@ -1,51 +1,42 @@
-
-
-#define outputA 2 //pin 2
-#define outputB 3 //pin 3
-#define click_sw 4 // pin 4
+#define outputA 2 
+#define outputB 3 
+#define SW 4
 int counter = 0; 
-int aState; 
-int aLastState; 
+int a_Now; 
+int a_Last; 
 
-void setup() 
-{ 
+void setup() { 
   pinMode (outputA,INPUT); 
   pinMode (outputB,INPUT); 
-  pinMode (click_sw,INPUT_PULLUP); 
+  pinMode (SW,INPUT_PULLUP); 
   Serial.begin (9600); 
-
-aLastState = digitalRead(outputA); 
+  
+  a_Last = a_Now = digitalRead(outputA); //初始
 } 
 
 
-void loop() 
-{ 
-
-  if(!digitalRead(click_sw))
-  {
+void loop() { 
+    a_Now = digitalRead(outputA); //
+    if (digitalRead(SW)==LOW)
+    {
+      Serial.println("Reset");
+      counter=0;
+      delay(300);
+    }
+    if (a_Now != a_Last)//A 改變，可能順也可能逆 //A 改變，可能順也可能逆 
+    { 
     
-    Serial.println("RESET");
-    counter=0;
-    delay(300);
-  }
-  
-  
-  aState = digitalRead(outputA); //將outputA的讀取值 設給 aState
-  
-  if (aState != aLastState){ //條件判斷，當aState 不等於 aLastState時發生 
-
-    if (digitalRead(outputB) != aState) 
-      { //條件判斷，當outputB讀取值 不等於 aState時發生
-        counter ++; //計數器+1
+      if (digitalRead(outputB) != a_Now) { //如果 AB不同則順；AB相同則逆
+        counter ++; //計數器+1，但會有兩次
       } 
-    else 
-      {
-        counter --; //計數器-1
+      else {
+        counter --; //計數器-1，但會有兩次，但會有兩次
       }
-  Serial.print("Position: "); //透過serial印出字串 Position: 
-  Serial.println(counter); //透過serial印出 counter 值
-  
-  }
-  
-  aLastState = aState; //將aState 最後的值 設給 aLastState
+      Serial.print("Position: "); // Position: 
+      Serial.print(counter); //跳兩次的值
+      Serial.print("/");
+      Serial.println(counter/2);//真正的值
+    }
+    
+    a_Last = a_Now; //
 }
