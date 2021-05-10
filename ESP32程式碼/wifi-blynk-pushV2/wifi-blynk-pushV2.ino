@@ -3,14 +3,16 @@
 const char* ssid = "R410";
 const char* password = "R410R410";
 
-BLYNK_WRITE(V0)
+BlynkTimer timer;
+
+// This function sends Arduino's up time every second to Virtual Pin (5).
+// In the app, Widget's reading frequency should be set to PUSH. This means
+// that you define how often to send data to Blynk App.
+void myTimerEvent()
 {
-  int pinValue = param.asInt(); // assigning incoming value from pin V1 to a variable
-  // You can also use:
-  // String i = param.asStr();
-  // double d = param.asDouble();
-  Serial.print("V0 Slider value is: ");
-  Serial.println(pinValue);
+  // You can send any value at any time.
+  // Please don't send more that 10 values per second.
+  Blynk.virtualWrite(V2, millis() / 1000);
 }
 
 void setup(){
@@ -22,12 +24,11 @@ void setup(){
     Serial.print(".");
   }
   Serial.println("WiFi connected");
-  pinMode(BUILTIN_LED, OUTPUT);
   Blynk.begin("0Hx-V_ZtxFY01BkTK6Vcqco8ASA-1pN3", ssid, password);
   
 }
 
 void loop(){
       Blynk.run();
-      
+      timer.run(); // Initiates BlynkTimer
 }
