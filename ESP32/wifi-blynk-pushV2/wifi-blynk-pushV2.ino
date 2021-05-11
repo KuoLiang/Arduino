@@ -24,7 +24,7 @@ void setup(){
     Serial.print(".");
   }
   Serial.println("WiFi connected");
-  Blynk.begin("0Hx-V_ZtxFY01BkTK6Vcqco8ASA-1pN3", ssid, password);
+  Blynk.begin("yourkey", ssid, password);
   
 }
 
