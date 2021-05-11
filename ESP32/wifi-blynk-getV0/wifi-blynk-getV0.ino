@@ -1,7 +1,7 @@
 //#include<WiFi.h>
 #include <BlynkSimpleEsp32.h>
-const char* ssid = "R410";
-const char* password = "R410R410";
+const char* ssid = "tcap";
+const char* password = "3838383838";
 
 BLYNK_WRITE(V0)
 {
