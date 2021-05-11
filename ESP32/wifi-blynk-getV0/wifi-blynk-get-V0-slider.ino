@@ -1,7 +1,7 @@
 //#include<WiFi.h>
 #include <BlynkSimpleEsp32.h>
-const char* ssid = "tcap";
-const char* password = "3838383838";
+const char* ssid = "R410";
+const char* password = "R410R410";
 
 BLYNK_WRITE(V0)
 {
@@ -23,7 +23,7 @@ void setup(){
   }
   Serial.println("WiFi connected");
   pinMode(BUILTIN_LED, OUTPUT);
-  Blynk.begin("0Hx-V_ZtxFY01BkTK6Vcqco8ASA-1pN3", ssid, password);
+  Blynk.begin("yourkey", ssid, password);
   
 }
 
