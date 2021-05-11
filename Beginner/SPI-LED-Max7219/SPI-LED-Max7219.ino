@@ -5,7 +5,7 @@
 #include "fonts2.h" // 引用外部的 LED 字元外觀定義檔
 byte buffer[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 // 儲存要顯示的訊息
-char msg[] = {'A', 'r', 'd', 'u', 'i', 'n', 'o', ' '};
+char msg[] = {'H', 'e', 'l', 'l', 'o', '!', '!', 'W','W','W',' '};
 int msgSize = sizeof(msg);
 // 定義 MAX7219 暫存器值
 const byte NOOP = 0x0;        // 不運作
@@ -36,6 +36,8 @@ void scroll(byte chr)
     buffer[7] = fonts[chr][j];
     max7219(8, buffer[7]);
     delay(100);
+    while(!digitalRead(2))
+    { ;   }
   }
 }
 void setup()
@@ -53,6 +55,7 @@ void setup()
   {
     max7219(i + 1, 0);
   }
+  pinMode(2,INPUT_PULLUP);
 }
 
 void loop()
