@@ -13,7 +13,7 @@ void setup(){
   }
   Serial.println("WiFi connected");
   pinMode(BUILTIN_LED, OUTPUT);
-  Blynk.begin("0Hx-V_ZtxFY01BkTK6Vcqco8ASA-1pN3", ssid, password);
+  Blynk.begin("yourkey", ssid, password);
   
 }
 
