@@ -2,15 +2,15 @@
 #include <BlynkSimpleEsp32.h>
 const char* ssid = "R410";
 const char* password = "R410R410";
-
+int pinValueV0 = 0; //initial the V0 value to zero
 BLYNK_WRITE(V0)
 {
-  int pinValue = param.asInt(); // assigning incoming value from pin V1 to a variable
+  pinValueV0 = param.asInt(); // assigning incoming value from pin V1 to a variable
   // You can also use:
   // String i = param.asStr();
   // double d = param.asDouble();
   Serial.print("V0 Slider value is: ");
-  Serial.println(pinValue);
+  Serial.println(pinValueV0);
 }
 
 void setup(){
@@ -29,5 +29,8 @@ void setup(){
 
 void loop(){
       Blynk.run();
-      
+      digitalWrite(BUILTIN_LED,HIGH);
+      delay(pinValueV0);
+      digitalWrite(BUILTIN_LED,LOW);
+      delay(pinValueV0);
 }
