@@ -1,6 +1,0 @@
-ESP32-Arduino-Servo-Library.zip
-
-   為ESP32下，伺服馬達驅動函式庫
-
-   此函式庫於GitHub的網址：https://github.com/jkb-git/ESP32Servo
-
