@@ -3,7 +3,6 @@
 #include <BlynkSimpleEsp32.h>
 #include <DFRobotDFPlayerMini.h>
 #include <TimeLib.h>
-#include <WidgetRTC.h>
 
 rgb_lcd lcd;
 int myalarm=0;
@@ -12,7 +11,7 @@ int play=0;
 int lastplay=0;
 
 struct tm timeinfo;
-long wakeup_time_long;
+long wakeup_time_long=25200; //am 7:00 as default
 String wakeup_time_str;
 long currentTime;
 long currentDate;
@@ -41,7 +40,7 @@ void setup() {
     myDFPlayer.volume(10);  //Set volume value. From 0 to 30
     //myDFPlayer.play(1);  //Play the first mp3
     
-    rtc.begin();    
+    //rtc.begin();   
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer); //Setup Localtimer
     timer.setInterval(1000L, EverySecondDo);// Setup a function to be called every second
 

@@ -10,4 +10,5 @@ void setup_music()
     delay(500);
     myDFPlayer.volume(30);  //設定聲音大小（0-30）
     lcd.clear();
+    myDFPlayer.stop();
 }

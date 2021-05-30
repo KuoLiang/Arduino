@@ -2,7 +2,6 @@ const char* ssid = "RyanRoy";
 const char* password = "3838383838";
 
 BlynkTimer timer;
-WidgetRTC rtc;
 
 void setup_Wifi()
 {
