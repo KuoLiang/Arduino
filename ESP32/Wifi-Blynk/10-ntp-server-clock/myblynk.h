@@ -2,9 +2,11 @@ const char* ssid = "RyanRoy";
 const char* password = "3838383838";
 
 BlynkTimer timer;
+WidgetRTC rtc;
+
 void setup_Wifi()
 {
-    Serial.println("Trying");
+    Serial.println("Connecting");
     digitalWrite(LED_BUILTIN,LOW);
     WiFi.begin(ssid, password);
 
@@ -21,24 +23,51 @@ void setup_Wifi()
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Connected");
-    Serial.println("WiFi connected");
+    Serial.println("Connected");
     digitalWrite(LED_BUILTIN,HIGH);
+
 }
 
 BLYNK_WRITE(V7)
 {
-  int pinValue = param.asInt(); // assigning incoming value from pin V1 to a variable
+  int pinValue = param.asInt(); 
   int start=pinValue;
 }
-BLYNK_WRITE(V8)
+BLYNK_WRITE(V8)       //1602 backlight
 {
-  int pinValue = param.asInt(); // assigning incoming value from pin V1 to a variable
+  int pinValue = param.asInt(); 
   lcd.setPWM(REG_RED, pinValue);
   lcd.setPWM(REG_GREEN, pinValue);
   lcd.setPWM(REG_BLUE, pinValue);
 }
-BLYNK_WRITE(V0)
+BLYNK_WRITE(V0)       //1602 show text
 {
-  int pinValue = param.asInt(); // assigning incoming value from pin V1 to a variable
-  lcd_on=pinValue;
+  lcd_on= param.asInt(); 
+}
+
+BLYNK_WRITE(V1)       //play music
+{
+  int pinValue = param.asInt(); 
+  if(pinValue==1)
+  {
+      if(lastplay==0)
+      {
+        play=1; 
+        lastplay=1;
+        myDFPlayer.playMp3Folder(1);
+      }
+      else;
+  }
+  else
+  {
+    play=0;
+    lastplay=0;
+    myDFPlayer.pause();
+  }
+}
+
+BLYNK_WRITE(V9)     //setup wakeup time as Long
+{
+  wakeup_time_long = param.asLong(); 
+  wakeup_time_str = param.asStr();
 }
