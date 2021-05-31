@@ -5,7 +5,7 @@ BlynkTimer timer;
 
 void setup_Wifi()
 {
-    Serial.println("Connecting");
+    Serial.print("Connecting");
     digitalWrite(LED_BUILTIN,LOW);
     WiFi.begin(ssid, password);
 
@@ -69,4 +69,31 @@ BLYNK_WRITE(V9)     //setup wakeup time as Long
 {
   wakeup_time_long = param.asLong(); 
   wakeup_time_str = param.asStr();
+
+
+  for(int i=0;i<4;i++)
+  {
+      //EEPROM.write(i, wakeup_time_str);
+  }
+  //EEPROM.commit();
+}
+
+void printf_bin(float num)//注意这次这里的参数类型改成了float
+{
+    int i, j, k;
+    unsigned char *p = (unsigned char*)&num + 3;
+
+    for (i = 0; i < 4; i++) //处理4个字节(32位）
+{
+        j = *(p - i); //取每个字节的首地址
+        for (int k = 7; k >= 0; k--) //处理每个字节的8个位
+        {
+            if (j & (1 << k))
+                printf("1");
+            else
+                printf("0");
+        }
+        printf(" ");
+}
+    printf("\r\n");
 }

@@ -24,6 +24,8 @@ void EverySecondDo()
     lastplay=1;
     myDFPlayer.play(1);
   }
+  //Serial.println(  EEPROM.read(0));
+
   
 }
 
