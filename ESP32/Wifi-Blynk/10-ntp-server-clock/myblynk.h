@@ -32,6 +32,11 @@ BLYNK_WRITE(V7)
   int pinValue = param.asInt(); 
   int start=pinValue;
 }
+BLYNK_WRITE(V6)       //volume
+{
+  int pinValue = param.asInt(); 
+  myDFPlayer.volume(pinValue);
+}
 BLYNK_WRITE(V8)       //1602 backlight
 {
   int pinValue = param.asInt(); 

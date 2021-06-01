@@ -38,10 +38,10 @@ void setup() {
     lcd.begin(16,2);
  
     setup_Wifi();  
-    Blynk.begin("9PYDD7BujqynzfqQ4GC4ySMRcioalJBt", ssid, password);
+    Blynk.begin("ChqgZuNksx9RaZtOnKu75V08IM9s2S_s", ssid, password);
 
     setup_music();
-    myDFPlayer.volume(10);  //Set volume value. From 0 to 30
+    myDFPlayer.volume(20);  //Set volume value. From 0 to 30
     //myDFPlayer.play(1);  //Play the first mp3
     
     //rtc.begin();   

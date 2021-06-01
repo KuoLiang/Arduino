@@ -6,23 +6,25 @@ void EverySecondDo()
 {
   currentTime = ((timeinfo.tm_hour*60)+timeinfo.tm_min)*60 + timeinfo.tm_sec;
   //currentDate = String(day()) + " " + month() + " " + year();
-  Blynk.virtualWrite(V6, currentTime);
+  //Blynk.virtualWrite(V6, currentTime);
   Serial.print("current:");
   Serial.println(currentTime);
   Serial.print("wakeup :");
   Serial.println(wakeup_time_long);
 
-  if(currentTime-60>=wakeup_time_long)
+  if(currentTime-60>=wakeup_time_long && lastplay==1)
   {
     myDFPlayer.stop();
     play=0;
     lastplay=0;
+    Serial.println("Stop");
   }
-  else if(currentTime>=wakeup_time_long && lastplay==0)
+  else if(currentTime==wakeup_time_long && lastplay==0)
   {
     play=1; 
     lastplay=1;
     myDFPlayer.play(1);
+    Serial.println("Playing");
   }
   //Serial.println(  EEPROM.read(0));
 
