@@ -10,7 +10,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
  
-#define SS_PIN 4 //it is for data; 18:SCK ; 23:MOSI ; 19:MISO
+#define SS_PIN 4 //it is for select SDAorNSS; 18:SCK ; 23:MOSI ; 19:MISO
 #define RST_PIN 32
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
  
@@ -49,7 +49,7 @@ void loop()
   Serial.println();
   Serial.print("Message : ");
   content.toUpperCase();
-  if (content.substring(1) == "99 A9 E4 6E") //change here the UID of the card/cards that you want to give access
+  if (content.substring(1) == "99 A9 E4 6E" || content.substring(1) == "89 8D CE 6E") //change here the UID of the card/cards that you want to give access
   {
     Serial.println("Authorized access");
     Serial.println();
