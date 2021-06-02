@@ -74,13 +74,16 @@ BLYNK_WRITE(V9)     //setup wakeup time as Long
 {
   wakeup_time_long = param.asLong(); 
   wakeup_time_str = param.asStr();
-
-
-  for(int i=0;i<4;i++)
-  {
-      //EEPROM.write(i, wakeup_time_str);
-  }
-  //EEPROM.commit();
+  int wakeup_hour= wakeup_time_long/60/60;
+  int wakeup_min=(wakeup_time_long-wakeup_hour*60*60)/60;
+  EEPROM.write(0, wakeup_hour);
+  EEPROM.write(1, wakeup_min);
+  Serial.print("Save to");
+  Serial.print(wakeup_hour);
+  Serial.print(":");
+  Serial.print(wakeup_min);
+  EEPROM.commit();
+  Serial.print("Committed");
 }
 
 void printf_bin(float num)//注意这次这里的参数类型改成了float

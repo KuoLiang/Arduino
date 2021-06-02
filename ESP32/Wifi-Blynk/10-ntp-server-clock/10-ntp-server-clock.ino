@@ -5,13 +5,15 @@
 #include <DFRobotDFPlayerMini.h>
 #include <TimeLib.h>
 
-#define EEPROM_SIZE 8
-
+#define EEPROM_SIZE 2
+int PLAY_TIME=180;
 rgb_lcd lcd;
 int myalarm=0;
 int lcd_on=1;
 int play=0;
 int lastplay=0;
+int motion=1;
+int motion_delay=20;
 
 struct tm timeinfo;
 long wakeup_time_long=25200; //am 7:00 as default
@@ -29,13 +31,24 @@ DFRobotDFPlayerMini myDFPlayer;
 void setup_pinMode()
 {
   pinMode(LED_BUILTIN,OUTPUT);
+  pinMode(35,INPUT); //motion pin
 }
 
+void myread_eeprom()
+{
+  EEPROM.begin(EEPROM_SIZE);
+  int wakeup_hour = EEPROM.read(0);
+  int wakeup_min = EEPROM.read(1);
+  //change to wake up time
+  wakeup_time_long = wakeup_hour*60*60 + wakeup_min*60;
+  Serial.print("EEPROM=");
+  Serial.println(wakeup_time_long);
+}
 void setup() {
     Serial.begin(115200);
-    EEPROM.begin(EEPROM_SIZE);
     setup_pinMode();    
     lcd.begin(16,2);
+    myread_eeprom();
  
     setup_Wifi();  
     Blynk.begin("ChqgZuNksx9RaZtOnKu75V08IM9s2S_s", ssid, password);

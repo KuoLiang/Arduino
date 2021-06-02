@@ -2,17 +2,40 @@ const char* ntpServer = "watch.stdtime.gov.tw";
 const long  gmtOffset_sec = 8*60*60; //+8hrs
 const int   daylightOffset_sec = 0;
 
+void check_motion()
+{
+  if(digitalRead(35))
+  {
+    motion=1;
+    motion_delay=20;
+  }
+  if(motion_delay>=0 && motion==1)
+  {
+    motion=1;
+    lcd.setPWM(REG_RED, motion_delay*10);
+    lcd.setPWM(REG_GREEN, motion_delay*10);
+    lcd.setPWM(REG_BLUE, motion_delay*10);
+
+    motion_delay--;
+    Serial.println(motion_delay);
+  }
+  else
+  {
+    motion=0;
+    motion_delay=20;
+  }
+}
 void EverySecondDo()
 {
   currentTime = ((timeinfo.tm_hour*60)+timeinfo.tm_min)*60 + timeinfo.tm_sec;
   //currentDate = String(day()) + " " + month() + " " + year();
   //Blynk.virtualWrite(V6, currentTime);
-  Serial.print("current:");
-  Serial.println(currentTime);
-  Serial.print("wakeup :");
-  Serial.println(wakeup_time_long);
-
-  if(currentTime-60>=wakeup_time_long && lastplay==1)
+  //Serial.print("current:");
+  //Serial.println(currentTime);
+  //Serial.print("wakeup :");
+  //Serial.println(wakeup_time_long);
+  //Serial.println(digitalRead(35));
+  if(currentTime-PLAY_TIME>=wakeup_time_long && lastplay==1 || digitalRead(35))
   {
     myDFPlayer.stop();
     play=0;
@@ -28,6 +51,7 @@ void EverySecondDo()
   }
   //Serial.println(  EEPROM.read(0));
 
+  check_motion();
   
 }
 
