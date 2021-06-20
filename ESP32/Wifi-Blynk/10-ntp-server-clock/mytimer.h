@@ -65,7 +65,9 @@ void printLocalTime()
     }
     //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
     lcd.setCursor(0, 0);
-    lcd.print(&timeinfo, "%B %d %Y"); //Month, Day, Year
+    lcd.print(&timeinfo, "%B %d %Y  "); //Month, Day, Year
+    lcd.print(my_volume);
+    lcd.print("  ");
     lcd.setCursor(0, 1);
     lcd.print(&timeinfo, "%H:%M:%S"); //Hour, Minute, Second
     lcd.setCursor(10,1);
@@ -75,7 +77,8 @@ void printLocalTime()
     int myminute=(wakeup_time_long-myhour*60*60)/60;
     if(myminute<10) lcd.print("0");
     lcd.print(myminute);
-    delay(1000);
+    lcd.print("  ");
+    delay(1000); 
     (lcd_on==1)?lcd.display():lcd.noDisplay();
     
 }

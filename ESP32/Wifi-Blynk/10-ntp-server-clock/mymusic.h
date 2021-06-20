@@ -8,7 +8,7 @@ void setup_music()
     myHardwareSerial.begin(9600, SERIAL_8N1, 10, 9); // Serial的TX,RX
     myDFPlayer.begin(myHardwareSerial);//將DFPlayer播放器宣告在HardwareSerial控制
     delay(500);
-    myDFPlayer.volume(20);  //設定聲音大小（0-30）
+    myDFPlayer.volume(15);  //設定聲音大小（0-30）
     lcd.clear();
     myDFPlayer.stop();
 }

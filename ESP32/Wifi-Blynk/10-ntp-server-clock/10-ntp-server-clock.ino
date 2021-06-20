@@ -14,6 +14,7 @@ int play=0;
 int lastplay=0;
 int motion=1;
 int motion_delay=20;
+int my_volume=15;
 
 struct tm timeinfo;
 long wakeup_time_long=25200; //am 7:00 as default
