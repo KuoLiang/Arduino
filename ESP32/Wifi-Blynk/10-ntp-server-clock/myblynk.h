@@ -86,7 +86,7 @@ BLYNK_WRITE(V9)     //setup wakeup time as Long
   Serial.print("Committed");
 }
 
-void printf_bin(float num)//注意这次这里的参数类型改成了float
+void printf_bin(float num)//float
 {
     int i, j, k;
     unsigned char *p = (unsigned char*)&num + 3;

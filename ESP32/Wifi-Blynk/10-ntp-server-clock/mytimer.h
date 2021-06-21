@@ -4,6 +4,7 @@ const int   daylightOffset_sec = 0;
 
 void check_motion()
 {
+  if(play==1) return;
   if(digitalRead(35))
   {
     motion=1;
@@ -41,6 +42,7 @@ void EverySecondDo()
     play=0;
     lastplay=0;
     Serial.println("Stop");
+    lcd.setRGB(255, 255, 255);
   }
   else if(currentTime==wakeup_time_long && lastplay==0)
   {
@@ -48,6 +50,7 @@ void EverySecondDo()
     lastplay=1;
     myDFPlayer.play(1);
     Serial.println("Playing");
+    lcd.setRGB(255, 255, 0);
   }
   //Serial.println(  EEPROM.read(0));
 
@@ -63,11 +66,14 @@ void printLocalTime()
       Serial.println("Failed to obtain time");
       return;
     }
-    //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-    lcd.setCursor(0, 0);    //current date
-    lcd.print(&timeinfo, "%B %d %Y  "); //Month, Day, Year
+    lcd.setCursor(0, 0);    //current volume
     lcd.print(my_volume);
     lcd.print("  ");
+    
+    //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+    lcd.setCursor(4, 0);    //current date
+    lcd.print(&timeinfo, "%B %d %Y  "); //Month, Day, Year
+
 
     lcd.setCursor(0,1);
     int myhour=wakeup_time_long/(60*60);  //alarm time
