@@ -70,7 +70,7 @@ void printLocalTime()
     lcd.print("  ");
     lcd.setCursor(0, 1);
     lcd.print(&timeinfo, "%H:%M:%S"); //Hour, Minute, Second
-    lcd.setCursor(10,1);
+    lcd.setCursor(11,1);
     int myhour=wakeup_time_long/(60*60);
     lcd.print(myhour);
     lcd.print(":");
