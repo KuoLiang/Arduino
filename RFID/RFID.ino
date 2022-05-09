@@ -8,6 +8,7 @@
  */
 #include <SPI.h>
 #include <MFRC522.h>
+#include <ESP32Servo.h>
 #include "music.h"
  
 #define SS_PIN 5 //it is for select SDAorNSS; 18:SCK ; 23:MOSI ; 19:MISO
@@ -31,7 +32,7 @@ void loop()
 {
   digitalWrite(LED_BUILTIN,LOW);
   digitalWrite(13,LOW);
-  music();
+  
   // Look for new cards
   if ( ! mfrc522.PICC_IsNewCardPresent()) 
   {
@@ -45,7 +46,7 @@ void loop()
   //Show UID on serial monitor
   digitalWrite(LED_BUILTIN,HIGH);
   digitalWrite(13,HIGH);
-
+  music();
   Serial.print("UID tag :");
   String content= "";
   byte letter;

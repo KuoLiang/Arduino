@@ -9,8 +9,8 @@ void music() {
     NOTE_FS5, NOTE_G5, NOTE_GS5, NOTE_A5, NOTE_AS5, NOTE_B5
   };
   
-    for(int i=0; i<24; i++){
-      tone(8, Notes[i], 100); // 從第8Pin發聲,發出100ms的聲音
-      delay(200);
+    for(int i=0; i<3; i++){
+      tone(12, Notes[i], 100); // 從第12Pin發聲,發出100ms的聲音
+      //delay(100);
     }
 }
