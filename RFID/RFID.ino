@@ -10,7 +10,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
  
-#define SS_PIN 4 //it is for select SDAorNSS; 18:SCK ; 23:MOSI ; 19:MISO
+#define SS_PIN 5 //it is for select SDAorNSS; 18:SCK ; 23:MOSI ; 19:MISO
 #define RST_PIN 32
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
  
