@@ -41,7 +41,9 @@ void loop()
   digitalWrite(LED_BUILTIN,HIGH);
   digitalWrite(13,HIGH); //buzz only
   music();               //do re me
-  Serial.print("UID tag :");
+  Serial.print("PICC type :");
+  Serial.print(mfrc522.PICC_GetType(mfrc522.uid.sak));
+  Serial.print("  UID tag :");
   String content= "";
   byte letter;
   for (byte i = 0; i < mfrc522.uid.size; i++) // uid 轉換為文字變數 content
