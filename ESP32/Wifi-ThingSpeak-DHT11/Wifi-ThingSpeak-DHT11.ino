@@ -54,6 +54,7 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo native USB port only
   }
   pinMode(BUILTIN_LED,OUTPUT);
+  pinMode(12,OUTPUT);//yellow led
   pinMode(13,OUTPUT);//green led
   pinMode(16,OUTPUT);//red led
 
@@ -61,6 +62,9 @@ void setup() {
   dht.begin();
   WiFi.mode(WIFI_STA);   
   ThingSpeak.begin(client);  // Initialize ThingSpeak
+  digitalWrite(12,HIGH); //yellow
+  digitalWrite(13,HIGH); //green
+  digitalWrite(16,HIGH);//red
 }
 
 void loop() {
@@ -118,13 +122,18 @@ void loop() {
   }
   number2 = random(0,100);
   digitalWrite(BUILTIN_LED,LOW);
-  digitalWrite(13,LOW);
-  digitalWrite(16,HIGH);
-
-
-  delay(20000); // Wait 20 seconds to update the channel again
+  digitalWrite(12,LOW); //yellow
+  digitalWrite(13,LOW); //green
+  digitalWrite(16,HIGH);//red
+  delay(15000); // Wait 10 seconds to update the channel again
+  digitalWrite(12,HIGH); //yellow
+  digitalWrite(13,LOW); //green
+  digitalWrite(16,LOW); //red
+  delay(5000); // Wait 10 seconds to update the channel again 
   digitalWrite(BUILTIN_LED,HIGH);
-  digitalWrite(13,HIGH);
-  digitalWrite(16,LOW);
+  digitalWrite(12,LOW); //yellow
+  digitalWrite(13,HIGH); //green
+  digitalWrite(16,LOW); //red
+  
 
 }
