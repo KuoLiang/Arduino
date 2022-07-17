@@ -24,9 +24,11 @@
 */
 #include <DHT.h>
 #include <WiFi.h>
+#include <Wire.h>               // Only needed for Arduino 1.6.5 and earlier
+#include "SSD1306Wire.h"        // legacy: #include "SSD1306.h"
+#include "images.h"
 #include "secrets.h"
 #include "ThingSpeak.h" // always include thingspeak header file after other header files and custom macros
-
 #define DHTPIN 15          // What digital pin we're connected to
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11     // DHT 11
@@ -38,6 +40,8 @@ char pass[] = SECRET_PASS;   // your network password
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 WiFiClient  client;
 DHT dht(DHTPIN, DHTTYPE);
+SSD1306Wire display(0x3c, SDA, SCL);   // ADDRESS, SDA, SCL  
+
 unsigned long myChannelNumber = SECRET_CH_ID;
 const char * myWriteAPIKey = SECRET_WRITE_APIKEY;
 
@@ -58,6 +62,10 @@ void setup() {
   pinMode(13,OUTPUT);//green led
   pinMode(16,OUTPUT);//red led
 
+  // Initialising the UI will init the display too.
+  display.init();
+  display.flipScreenVertically();
+  display.setFont(ArialMT_Plain_10);
 
   dht.begin();
   WiFi.mode(WIFI_STA);   
@@ -68,6 +76,7 @@ void setup() {
 }
 
 void loop() {
+
 
   // Connect or reconnect to WiFi
   if(WiFi.status() != WL_CONNECTED){
@@ -121,6 +130,16 @@ void loop() {
     number1 = 0;
   }
   number2 = random(0,100);
+
+  String show;
+  show = "Temperature:"+String(t);
+  show += "\nHumidity:"+String(h);
+  display.clear();
+  display.setFont(ArialMT_Plain_10);
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.drawStringMaxWidth(0, 0, 128, show);
+  display.display();
+  
   digitalWrite(BUILTIN_LED,LOW);
   digitalWrite(12,LOW); //yellow
   digitalWrite(13,LOW); //green
