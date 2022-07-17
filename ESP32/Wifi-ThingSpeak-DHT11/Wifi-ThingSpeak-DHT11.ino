@@ -27,10 +27,10 @@
 #include "secrets.h"
 #include "ThingSpeak.h" // always include thingspeak header file after other header files and custom macros
 
-#define DHTPIN 4          // What digital pin we're connected to
+#define DHTPIN 15          // What digital pin we're connected to
 // Uncomment whatever type you're using!
-//define DHTTYPE DHT11     // DHT 11
-#define DHTTYPE DHT22   // DHT 22, AM2302, AM2321
+#define DHTTYPE DHT11     // DHT 11
+//define DHTTYPE DHT22   // DHT 22, AM2302, AM2321
 //#define DHTTYPE DHT21   // DHT 21, AM2301
 
 char ssid[] = SECRET_SSID;   // your network SSID (name) 
@@ -54,6 +54,10 @@ void setup() {
     ; // wait for serial port to connect. Needed for Leonardo native USB port only
   }
   pinMode(BUILTIN_LED,OUTPUT);
+  pinMode(13,OUTPUT);//green led
+  pinMode(16,OUTPUT);//red led
+
+
   dht.begin();
   WiFi.mode(WIFI_STA);   
   ThingSpeak.begin(client);  // Initialize ThingSpeak
@@ -114,6 +118,13 @@ void loop() {
   }
   number2 = random(0,100);
   digitalWrite(BUILTIN_LED,LOW);
+  digitalWrite(13,LOW);
+  digitalWrite(16,HIGH);
+
+
   delay(20000); // Wait 20 seconds to update the channel again
   digitalWrite(BUILTIN_LED,HIGH);
+  digitalWrite(13,HIGH);
+  digitalWrite(16,LOW);
+
 }
