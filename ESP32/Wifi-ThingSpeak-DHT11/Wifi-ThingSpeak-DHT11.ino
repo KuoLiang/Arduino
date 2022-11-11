@@ -41,16 +41,18 @@ int keyIndex = 0;            // your network key Index number (needed only for W
 WiFiClient  client;
 DHT dht(DHTPIN, DHTTYPE);
 SSD1306Wire display(0x3c, SDA, SCL);   // ADDRESS, SDA, SCL  
+void check_buttom();
 
 unsigned long myChannelNumber = SECRET_CH_ID;
 const char * myWriteAPIKey = SECRET_WRITE_APIKEY;
-
+float h,t;
 // Initialize our values
 int number1 = 0;
 int number2 = random(0,100);
 int number3 = 0;
 int number4 = 0;
 String myStatus = "";
+int showout = 0;
 
 void setup() {
   Serial.begin(115200);  //Initialize serial
@@ -61,7 +63,8 @@ void setup() {
   pinMode(12,OUTPUT);//yellow led
   pinMode(13,OUTPUT);//green led
   pinMode(16,OUTPUT);//red led
-
+  pinMode(36,INPUT);//buttom B
+  
   // Initialising the UI will init the display too.
   display.init();
   display.flipScreenVertically();
@@ -89,10 +92,8 @@ void loop() {
     } 
     Serial.println("\nConnected.");
   }
-
-
-  float h = dht.readHumidity();
-  float t = dht.readTemperature(); // or dht.readTemperature(true) for Fahrenheit
+  h = dht.readHumidity();
+  t = dht.readTemperature(); // or dht.readTemperature(true) for Fahrenheit
   Serial.println(h);
   Serial.println(t);
   // set the fields with the values
@@ -130,29 +131,40 @@ void loop() {
     number1 = 0;
   }
   number2 = random(0,100);
-
-  String show;
-  show = "Temperature:"+String(t);
-  show += "\nHumidity:"+String(h);
-  display.clear();
-  display.setFont(ArialMT_Plain_10);
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
-  display.drawStringMaxWidth(0, 0, 128, show);
-  display.display();
+    display.clear();
+    digitalWrite(BUILTIN_LED,LOW);
+    digitalWrite(12,LOW); //yellow
+    digitalWrite(13,LOW); //green
+    digitalWrite(16,HIGH);//red
+    check_buttom();
+    delay(10000); // Wait 10 seconds to update the channel again
+    digitalWrite(12,HIGH); //yellow
+    digitalWrite(13,LOW); //green
+    digitalWrite(16,LOW); //red
+    check_buttom();
+    delay(10000); // Wait 10 seconds to update the channel again 
+    digitalWrite(BUILTIN_LED,HIGH);
+    digitalWrite(12,LOW); //yellow
+    digitalWrite(13,HIGH); //green
+    digitalWrite(16,LOW); //red
+    check_buttom();
   
-  digitalWrite(BUILTIN_LED,LOW);
-  digitalWrite(12,LOW); //yellow
-  digitalWrite(13,LOW); //green
-  digitalWrite(16,HIGH);//red
-  delay(15000); // Wait 10 seconds to update the channel again
-  digitalWrite(12,HIGH); //yellow
-  digitalWrite(13,LOW); //green
-  digitalWrite(16,LOW); //red
-  delay(5000); // Wait 10 seconds to update the channel again 
-  digitalWrite(BUILTIN_LED,HIGH);
-  digitalWrite(12,LOW); //yellow
-  digitalWrite(13,HIGH); //green
-  digitalWrite(16,LOW); //red
-  
+}
 
+void check_buttom()
+{
+  if(!digitalRead(36))
+  { 
+    display.displayOn();
+    String show;
+    show = "Temperature:"+String(t);
+    show += "\nHumidity:"+String(h);
+    display.setFont(ArialMT_Plain_10);
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+    display.drawStringMaxWidth(0, 0, 128, show);
+    display.display();
+    delay(3000); // Wait 3 seconds to showout 
+  }
+    display.clear();
+    display.display();
 }
