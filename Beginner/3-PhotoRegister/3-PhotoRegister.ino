@@ -1,3 +1,5 @@
+//ChatGPT 4.0 @ 2024/3/2
+//請設計一個由光敏電阻數值控制LED是否點亮的程式碼，光亮度大於500時點亮LED，小於等於500時熄滅LED
 // 定義光敏電阻和LED的連接腳位
 const int photoResistorPin = A0; // 將光敏電阻連接到模擬輸入A0
 const int ledPin = 13;           // 將LED連接到數位輸出13
