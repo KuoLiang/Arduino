@@ -1,13 +1,12 @@
 /*
 紅綠燈
-紅常暗，綠常亮
 */
 
 // constants won't change. They're used here to set pin numbers:
 const int buttonPinR = 12;     // the number of the pushbutton pin
 const int buttonPinW = 11;     // the number of the pushbutton pin
 const int LIGHT = 0;     // the number of the pushbutton pin
-const int THOLD = 300;     // the threshold of yellow light
+const int THOLD = 500;     // the threshold of yellow light
 
 
 
