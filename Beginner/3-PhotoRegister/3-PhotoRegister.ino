@@ -12,7 +12,7 @@ void loop() {
   Serial.println(lightLevel);                    // 將光敏電阻的數值輸出到序列監控器
 
   // 判斷光照亮度，並根據亮度控制LED燈的狀態
-  if (lightLevel > 500) {
+  if (lightLevel < 500) {
     digitalWrite(ledPin, HIGH);   // 如果光照亮度大於500，點亮LED
   } else {
     digitalWrite(ledPin, LOW);    // 如果光照亮度小於或等於500，熄滅LED
