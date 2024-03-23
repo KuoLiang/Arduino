@@ -1,7 +1,6 @@
 // ChatGPT 4.0 @ 2024/3/2
 // 請以Arduino 設計一個由三個LED模擬交通號誌紅黃綠是否點亮的程式碼，紅燈及綠燈分別點亮10秒，中間的黃燈點亮三秒
-// 定義LED連接的Arduino板上的腳位
-// 定義LED連接的Arduino板上的腳位
+// 需定義LED連接的Arduino板上的腳位
 const int redLED = 10;    // 紅色LED連接到數位腳位10
 const int yellowLED = 9;  // 黃色LED連接到數位腳位9
 const int greenLED = 8;   // 綠色LED連接到數位腳位8
