@@ -45,7 +45,9 @@ void myTimerEvent()
   // You can send any value at any time.
   // Please don't send more that 10 values per second.
   Blynk.virtualWrite(V2, millis() / 1000);
-
+  int photoR_Value=analogRead(36);
+  Serial.println(photoR_Value);
+  Blynk.virtualWrite(V4, photoR_Value);
 }
 
 void setup()
@@ -63,7 +65,7 @@ void setup()
   pinMode(2, OUTPUT); // Set GPIO 2 as output
   pinMode(36, INPUT); // Set GPIO 2 as output
 }
-int photoR_Value =0;
+
 void loop()
 {
   Blynk.run();
@@ -71,8 +73,7 @@ void loop()
   // You can inject your own code or combine it with other sketches.
   // Check other examples on how to communicate with Blynk. Remember
   // to avoid delay() function!
-  analogRead(36);
-  Serial.println(photoR_Value);
+
 }
 
 
