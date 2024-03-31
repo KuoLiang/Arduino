@@ -1,5 +1,7 @@
-const int buttonPin = 8; // 按鈕連接到pin 8
-const int leds[] = {2, 3, 4, 5, 6, 7}; // 七段顯示器外圍LED的腳位
+const int buttonPin = 5; // for esp32 按鈕連接到pin 5
+const int leds[] = {17,18,19,21,22,23}; // for ESP32 七段顯示器外圍LED的腳位
+//const int buttonPin = 8; // 按鈕連接到pin 8
+//const int leds[] = {2,3,4,5,6,7}; // 七段顯示器外圍LED的腳位
 const int debounceDelay = 50; // 按鈕去抖動的延遲時間（毫秒）
 int buttonState; // 目前按鈕狀態
 int lastButtonState = LOW; // 上一次按鈕狀態
