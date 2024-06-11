@@ -17,16 +17,9 @@ void setup() {
 void loop() {
   // step one revolution  in one direction:
   int val = analogRead(0);
-  Serial.println("clockwise");
   //myStepper.step(stepsPerRevolution);
   myStepper.step(val - previous);
-  // remember the previous value of the sensor
+  //Serial.println(val - previous);
   previous = val;
-  //delay(500);
-
-  // step one revolution in the other direction:
-  //Serial.println("counterclockwise");
-  //myStepper.step(-stepsPerRevolution);
-  //delay(500);
   
 }
