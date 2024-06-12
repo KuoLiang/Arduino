@@ -14,7 +14,7 @@ char ssid[] = SECRET_SSID;   // your network SSID (name)
 char pass[] = SECRET_PASS;   // your network password
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
-WiFiClient  client;
+WiFiClient  myWifiClient;
 DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long myChannelNumber = SECRET_CH_ID;
@@ -33,7 +33,7 @@ String myStatus = "";
 
 void UploadData(){ 
   HTTPClient myWebClient;  
-  String url_str= url+"field1="+(int)number1+"field2="+(int)number2;
+  String url_str= url+"field1="+(int)number1+"&field2="+(int)number2;
   myWebClient.begin(url_str);
   int httpCode = myWebClient.GET();
   if(httpCode == HTTP_CODE_OK){
@@ -56,7 +56,7 @@ void setup() {
   Serial.begin(115200); //Initialize serial
   dht.begin();          //Initialize DHT
   WiFi.mode(WIFI_STA);  //Initialize Wifi
-  ThingSpeak.begin(client);  // Initialize ThingSpeak
+  ThingSpeak.begin(myWifiClient);  // Initialize ThingSpeak
 }
 
 void loop() {
@@ -111,8 +111,9 @@ void loop() {
     number1 = 0;
   }
   number2 = random(0,100);
+  UploadData();
   digitalWrite(BUILTIN_LED,LOW);
   delay(20000); // Wait 20 seconds to update the channel again
   digitalWrite(BUILTIN_LED,HIGH);
-  UploadData();
+
 }
