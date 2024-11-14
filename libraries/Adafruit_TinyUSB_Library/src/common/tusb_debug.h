@@ -43,7 +43,11 @@
 #if CFG_TUSB_DEBUG
 
 // Enum to String for debugging purposes
+<<<<<<< Updated upstream
 #if CFG_TUSB_DEBUG >= CFG_TUH_LOG_LEVEL || CFG_TUSB_DEBUG >= CFG_TUD_LOG_LEVEL
+=======
+#if CFG_TUSB_DEBUG >= 2
+>>>>>>> Stashed changes
 extern char const* const tu_str_speed[];
 extern char const* const tu_str_std_request[];
 extern char const* const tu_str_xfer_result[];

@@ -256,6 +256,7 @@ static inline void set_sense_medium_not_present(uint8_t lun)
 //--------------------------------------------------------------------+
 // USBD Driver API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 void mscd_init(void) {
   tu_memclr(&_mscd_itf, sizeof(mscd_interface_t));
 }
@@ -265,6 +266,13 @@ bool mscd_deinit(void) {
   return true;
 }
 
+=======
+void mscd_init(void)
+{
+  tu_memclr(&_mscd_itf, sizeof(mscd_interface_t));
+}
+
+>>>>>>> Stashed changes
 void mscd_reset(uint8_t rhport)
 {
   (void) rhport;
@@ -694,6 +702,7 @@ static int32_t proc_builtin_scsi(uint8_t lun, uint8_t const scsi_cmd[16], uint8_
       }
     break;
 
+<<<<<<< Updated upstream
     case SCSI_CMD_PREVENT_ALLOW_MEDIUM_REMOVAL:
       resplen = 0;
 
@@ -712,6 +721,8 @@ static int32_t proc_builtin_scsi(uint8_t lun, uint8_t const scsi_cmd[16], uint8_
     break;
 
 
+=======
+>>>>>>> Stashed changes
     case SCSI_CMD_READ_CAPACITY_10:
     {
       uint32_t block_count;

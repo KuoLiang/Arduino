@@ -38,6 +38,11 @@
 #include "osal/osal.h"
 #include "common/tusb_fifo.h"
 
+<<<<<<< Updated upstream
+=======
+#include "class/hid/hid.h"
+
+>>>>>>> Stashed changes
 //------------- TypeC -------------//
 #if CFG_TUC_ENABLED
   #include "typec/usbc.h"

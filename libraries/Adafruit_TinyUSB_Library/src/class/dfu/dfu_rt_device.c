@@ -56,11 +56,16 @@
 //--------------------------------------------------------------------+
 // USBD Driver API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 void dfu_rtd_init(void) {
 }
 
 bool dfu_rtd_deinit(void) {
   return true;
+=======
+void dfu_rtd_init(void)
+{
+>>>>>>> Stashed changes
 }
 
 void dfu_rtd_reset(uint8_t rhport)

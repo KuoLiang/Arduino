@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /*
  * The MIT License (MIT)
  *
@@ -23,12 +24,25 @@
  *
  */
 /** <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+=======
+/**
+  * @author  MCD Application Team
+  *          Ha Thach (tinyusb.org)
+  *
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+>>>>>>> Stashed changes
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
+<<<<<<< Updated upstream
+=======
+  *
+>>>>>>> Stashed changes
   */
 
 #ifndef _TUSB_DWC2_TYPES_H_

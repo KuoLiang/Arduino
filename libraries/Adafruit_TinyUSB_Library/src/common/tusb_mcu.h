@@ -100,6 +100,7 @@
   #define TUP_DCD_ENDPOINT_MAX    8
   #define TUP_RHPORT_HIGHSPEED    1
 
+<<<<<<< Updated upstream
 #elif TU_CHECK_MCU(OPT_MCU_MCXA15)
   // USB0 is chipidea FS
   #define TUP_USBIP_CHIPIDEA_FS
@@ -107,6 +108,8 @@
 
   #define TUP_DCD_ENDPOINT_MAX    16
 
+=======
+>>>>>>> Stashed changes
 #elif TU_CHECK_MCU(OPT_MCU_MIMXRT1XXX)
   #define TUP_USBIP_CHIPIDEA_HS
   #define TUP_USBIP_EHCI
@@ -195,7 +198,10 @@
 #elif TU_CHECK_MCU(OPT_MCU_STM32F4)
   #define TUP_USBIP_DWC2
   #define TUP_USBIP_DWC2_STM32
+<<<<<<< Updated upstream
   #define TUP_USBIP_DWC2_TEST_MODE
+=======
+>>>>>>> Stashed changes
 
   // For most mcu, FS has 4, HS has 6. TODO 446/469/479 HS has 9
   #define TUP_DCD_ENDPOINT_MAX    6
@@ -210,7 +216,10 @@
   // MCU with on-chip HS Phy
   #if defined(STM32F723xx) || defined(STM32F730xx) || defined(STM32F733xx)
     #define TUP_RHPORT_HIGHSPEED  1 // Port0: FS, Port1: HS
+<<<<<<< Updated upstream
     #define TUP_USBIP_DWC2_TEST_MODE
+=======
+>>>>>>> Stashed changes
   #endif
 
 #elif TU_CHECK_MCU(OPT_MCU_STM32H7)
@@ -279,7 +288,10 @@
       defined(STM32U5F7xx) || defined(STM32U5F9xx) || defined(STM32U5G7xx) || defined(STM32U5G9xx)
     #define TUP_DCD_ENDPOINT_MAX  9
     #define TUP_RHPORT_HIGHSPEED  1
+<<<<<<< Updated upstream
     #define TUP_USBIP_DWC2_TEST_MODE
+=======
+>>>>>>> Stashed changes
   #else
     #define TUP_DCD_ENDPOINT_MAX  6
   #endif
@@ -332,9 +344,12 @@
   #define TUP_USBIP_DWC2
   #define TUP_DCD_ENDPOINT_MAX    6
 
+<<<<<<< Updated upstream
 #elif TU_CHECK_MCU(OPT_MCU_ESP32, OPT_MCU_ESP32C2, OPT_MCU_ESP32C3, OPT_MCU_ESP32C6, OPT_MCU_ESP32H2) && (CFG_TUD_ENABLED || !(defined(CFG_TUH_MAX3421) && CFG_TUH_MAX3421))
   #error "MCUs are only supported with CFG_TUH_MAX3421 enabled"
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // Dialog
 //--------------------------------------------------------------------+
@@ -402,6 +417,7 @@
 #elif TU_CHECK_MCU(OPT_MCU_F1C100S)
   #define TUP_DCD_ENDPOINT_MAX    4
 
+<<<<<<< Updated upstream
 //--------------------------------------------------------------------+
 // WCH
 //--------------------------------------------------------------------+
@@ -454,6 +470,19 @@
 
 #endif
 
+=======
+//------------- WCH -------------//
+#elif TU_CHECK_MCU(OPT_MCU_CH32V307)
+  #define TUP_DCD_ENDPOINT_MAX    16
+  #define TUP_RHPORT_HIGHSPEED    1
+
+#elif TU_CHECK_MCU(OPT_MCU_CH32F20X)
+  #define TUP_DCD_ENDPOINT_MAX    16
+  #define TUP_RHPORT_HIGHSPEED    1
+#endif
+
+
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // External USB controller
 //--------------------------------------------------------------------+
@@ -473,7 +502,11 @@
 #define TUP_MCU_MULTIPLE_CORE 0
 #endif
 
+<<<<<<< Updated upstream
 #if !defined(TUP_DCD_ENDPOINT_MAX) && defined(CFG_TUD_ENABLED) && CFG_TUD_ENABLED
+=======
+#ifndef TUP_DCD_ENDPOINT_MAX
+>>>>>>> Stashed changes
   #warning "TUP_DCD_ENDPOINT_MAX is not defined for this MCU, default to 8"
   #define TUP_DCD_ENDPOINT_MAX    8
 #endif
@@ -488,6 +521,7 @@
   #define TU_ATTR_FAST_FUNC
 #endif
 
+<<<<<<< Updated upstream
 #if defined(TUP_USBIP_DWC2) || defined(TUP_USBIP_FSDEV)
   #define TUP_DCD_EDPT_ISO_ALLOC
 #endif
@@ -496,4 +530,6 @@
   #define TUP_MEM_CONST_ADDR
 #endif
 
+=======
+>>>>>>> Stashed changes
 #endif

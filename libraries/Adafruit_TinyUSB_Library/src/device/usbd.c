@@ -41,6 +41,30 @@
 #include "device/usbd_pvt.h"
 
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
+=======
+// ESP32 out-of-sync
+//--------------------------------------------------------------------+
+#if defined(ARDUINO_ARCH_ESP32) && !defined(PLATFORMIO)
+#ifndef TU_LOG_BUF
+#if CFG_TUSB_DEBUG >= CFG_TUD_LOG_LEVEL
+  static inline void tu_print_buf(uint8_t const* buf, uint32_t bufsize) {
+    for(uint32_t i=0; i<bufsize; i++) tu_printf("%02X ", buf[i]);
+  }
+  #define TU_LOG_BUF(lvl, _buf, _bufsize)  tu_print_buf(_buf, _bufsize)
+#else
+  #define TU_LOG_BUF(lvl, _buf, _bufsize)
+#endif
+#endif
+
+#endif
+
+#ifndef TU_LOG_USBD
+  #define TU_LOG_USBD(...)   TU_LOG(CFG_TUD_LOG_LEVEL, __VA_ARGS__)
+#endif
+
+//--------------------------------------------------------------------+
+>>>>>>> Stashed changes
 // USBD Configuration
 //--------------------------------------------------------------------+
 #ifndef CFG_TUD_TASK_QUEUE_SZ
@@ -48,7 +72,11 @@
 #endif
 
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 // Weak stubs: invoked if no strong implementation is available
+=======
+// Callback weak stubs (called if application does not provide)
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 TU_ATTR_WEAK void tud_event_hook_cb(uint8_t rhport, uint32_t eventid, bool in_isr) {
   (void)rhport;
@@ -56,6 +84,7 @@ TU_ATTR_WEAK void tud_event_hook_cb(uint8_t rhport, uint32_t eventid, bool in_is
   (void)in_isr;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_WEAK void tud_sof_cb(uint32_t frame_count) {
   (void)frame_count;
 }
@@ -73,6 +102,8 @@ TU_ATTR_WEAK void dcd_disconnect(uint8_t rhport) {
   (void) rhport;
 }
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // Device Data
 //--------------------------------------------------------------------+
@@ -93,7 +124,10 @@ typedef struct {
   volatile uint8_t cfg_num; // current active configuration (0x00 is not configured)
   uint8_t speed;
   volatile uint8_t setup_count;
+<<<<<<< Updated upstream
   volatile uint8_t sof_consumer;
+=======
+>>>>>>> Stashed changes
 
   uint8_t itf2drv[CFG_TUD_INTERFACE_MAX];   // map interface number to driver (0xff is invalid)
   uint8_t ep2drv[CFG_TUD_ENDPPOINT_MAX][2]; // map endpoint to driver ( 0xff is invalid ), can use only 4-bit each
@@ -108,18 +142,29 @@ tu_static usbd_device_t _usbd_dev;
 // Class Driver
 //--------------------------------------------------------------------+
 #if CFG_TUSB_DEBUG >= CFG_TUD_LOG_LEVEL
+<<<<<<< Updated upstream
   #define DRIVER_NAME(_name)  _name
 #else
   #define DRIVER_NAME(_name)  NULL
+=======
+  #define DRIVER_NAME(_name)    .name = _name,
+#else
+  #define DRIVER_NAME(_name)
+>>>>>>> Stashed changes
 #endif
 
 // Built-in class drivers
 tu_static usbd_class_driver_t const _usbd_driver[] = {
     #if CFG_TUD_CDC
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("CDC"),
         .init             = cdcd_init,
         .deinit           = cdcd_deinit,
+=======
+        DRIVER_NAME("CDC")
+        .init             = cdcd_init,
+>>>>>>> Stashed changes
         .reset            = cdcd_reset,
         .open             = cdcd_open,
         .control_xfer_cb  = cdcd_control_xfer_cb,
@@ -130,9 +175,14 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
 
     #if CFG_TUD_MSC
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("MSC"),
         .init             = mscd_init,
         .deinit           = NULL,
+=======
+        DRIVER_NAME("MSC")
+        .init             = mscd_init,
+>>>>>>> Stashed changes
         .reset            = mscd_reset,
         .open             = mscd_open,
         .control_xfer_cb  = mscd_control_xfer_cb,
@@ -143,6 +193,7 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
 
     #if CFG_TUD_HID
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("HID"),
         .init             = hidd_init,
         .deinit           = hidd_deinit,
@@ -151,11 +202,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = hidd_control_xfer_cb,
         .xfer_cb          = hidd_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("HID")
+      .init             = hidd_init,
+      .reset            = hidd_reset,
+      .open             = hidd_open,
+      .control_xfer_cb  = hidd_control_xfer_cb,
+      .xfer_cb          = hidd_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_AUDIO
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("AUDIO"),
         .init             = audiod_init,
         .deinit           = audiod_deinit,
@@ -164,11 +225,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = audiod_control_xfer_cb,
         .xfer_cb          = audiod_xfer_cb,
         .sof              = audiod_sof_isr
+=======
+      DRIVER_NAME("AUDIO")
+      .init             = audiod_init,
+      .reset            = audiod_reset,
+      .open             = audiod_open,
+      .control_xfer_cb  = audiod_control_xfer_cb,
+      .xfer_cb          = audiod_xfer_cb,
+      .sof              = audiod_sof_isr
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_VIDEO
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("VIDEO"),
         .init             = videod_init,
         .deinit           = videod_deinit,
@@ -177,11 +248,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = videod_control_xfer_cb,
         .xfer_cb          = videod_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("VIDEO")
+      .init             = videod_init,
+      .reset            = videod_reset,
+      .open             = videod_open,
+      .control_xfer_cb  = videod_control_xfer_cb,
+      .xfer_cb          = videod_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_MIDI
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("MIDI"),
         .init             = midid_init,
         .deinit           = midid_deinit,
@@ -190,11 +271,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = midid_control_xfer_cb,
         .xfer_cb          = midid_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("MIDI")
+      .init             = midid_init,
+      .open             = midid_open,
+      .reset            = midid_reset,
+      .control_xfer_cb  = midid_control_xfer_cb,
+      .xfer_cb          = midid_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_VENDOR
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("VENDOR"),
         .init             = vendord_init,
         .deinit           = vendord_deinit,
@@ -203,11 +294,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = tud_vendor_control_xfer_cb,
         .xfer_cb          = vendord_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("VENDOR")
+      .init             = vendord_init,
+      .reset            = vendord_reset,
+      .open             = vendord_open,
+      .control_xfer_cb  = tud_vendor_control_xfer_cb,
+      .xfer_cb          = vendord_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_USBTMC
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("TMC"),
         .init             = usbtmcd_init_cb,
         .deinit           = usbtmcd_deinit,
@@ -216,11 +317,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = usbtmcd_control_xfer_cb,
         .xfer_cb          = usbtmcd_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("TMC")
+      .init             = usbtmcd_init_cb,
+      .reset            = usbtmcd_reset_cb,
+      .open             = usbtmcd_open_cb,
+      .control_xfer_cb  = usbtmcd_control_xfer_cb,
+      .xfer_cb          = usbtmcd_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_DFU_RUNTIME
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("DFU-RUNTIME"),
         .init             = dfu_rtd_init,
         .deinit           = dfu_rtd_deinit,
@@ -229,11 +340,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = dfu_rtd_control_xfer_cb,
         .xfer_cb          = NULL,
         .sof              = NULL
+=======
+      DRIVER_NAME("DFU-RUNTIME")
+      .init             = dfu_rtd_init,
+      .reset            = dfu_rtd_reset,
+      .open             = dfu_rtd_open,
+      .control_xfer_cb  = dfu_rtd_control_xfer_cb,
+      .xfer_cb          = NULL,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_DFU
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("DFU"),
         .init             = dfu_moded_init,
         .deinit           = dfu_moded_deinit,
@@ -242,11 +363,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = dfu_moded_control_xfer_cb,
         .xfer_cb          = NULL,
         .sof              = NULL
+=======
+      DRIVER_NAME("DFU")
+      .init             = dfu_moded_init,
+      .reset            = dfu_moded_reset,
+      .open             = dfu_moded_open,
+      .control_xfer_cb  = dfu_moded_control_xfer_cb,
+      .xfer_cb          = NULL,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_ECM_RNDIS || CFG_TUD_NCM
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("NET"),
         .init             = netd_init,
         .deinit           = netd_deinit,
@@ -255,11 +386,21 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = netd_control_xfer_cb,
         .xfer_cb          = netd_xfer_cb,
         .sof                  = NULL,
+=======
+      DRIVER_NAME("NET")
+      .init             = netd_init,
+      .reset            = netd_reset,
+      .open             = netd_open,
+      .control_xfer_cb  = netd_control_xfer_cb,
+      .xfer_cb          = netd_xfer_cb,
+      .sof                  = NULL,
+>>>>>>> Stashed changes
     },
     #endif
 
     #if CFG_TUD_BTH
     {
+<<<<<<< Updated upstream
         .name             = DRIVER_NAME("BTH"),
         .init             = btd_init,
         .deinit           = btd_deinit,
@@ -268,6 +409,15 @@ tu_static usbd_class_driver_t const _usbd_driver[] = {
         .control_xfer_cb  = btd_control_xfer_cb,
         .xfer_cb          = btd_xfer_cb,
         .sof              = NULL
+=======
+      DRIVER_NAME("BTH")
+      .init             = btd_init,
+      .reset            = btd_reset,
+      .open             = btd_open,
+      .control_xfer_cb  = btd_control_xfer_cb,
+      .xfer_cb          = btd_xfer_cb,
+      .sof              = NULL
+>>>>>>> Stashed changes
     },
     #endif
 };
@@ -293,7 +443,10 @@ TU_ATTR_ALWAYS_INLINE static inline usbd_class_driver_t const * get_driver(uint8
   return driver;
 }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // DCD Event
 //--------------------------------------------------------------------+
@@ -315,9 +468,15 @@ tu_static osal_queue_t _usbd_q;
 #endif
 
 TU_ATTR_ALWAYS_INLINE static inline bool queue_event(dcd_event_t const * event, bool in_isr) {
+<<<<<<< Updated upstream
   TU_ASSERT(osal_queue_send(_usbd_q, event, in_isr));
   tud_event_hook_cb(event->rhport, event->event_id, in_isr);
   return true;
+=======
+  bool ret = osal_queue_send(_usbd_q, event, in_isr);
+  tud_event_hook_cb(event->rhport, event->event_id, in_isr);
+  return ret;
+>>>>>>> Stashed changes
 }
 
 //--------------------------------------------------------------------+
@@ -326,9 +485,13 @@ TU_ATTR_ALWAYS_INLINE static inline bool queue_event(dcd_event_t const * event, 
 static bool process_control_request(uint8_t rhport, tusb_control_request_t const * p_request);
 static bool process_set_config(uint8_t rhport, uint8_t cfg_num);
 static bool process_get_descriptor(uint8_t rhport, tusb_control_request_t const * p_request);
+<<<<<<< Updated upstream
 #if CFG_TUD_TEST_MODE
 static bool process_test_mode_cb(uint8_t rhport, uint8_t stage, tusb_control_request_t const * request);
 #endif
+=======
+
+>>>>>>> Stashed changes
 // from usbd_control.c
 void usbd_control_reset(void);
 void usbd_control_set_request(tusb_control_request_t const *request);
@@ -392,19 +555,30 @@ bool tud_remote_wakeup(void) {
 }
 
 bool tud_disconnect(void) {
+<<<<<<< Updated upstream
+=======
+  TU_VERIFY(dcd_disconnect);
+>>>>>>> Stashed changes
   dcd_disconnect(_usbd_rhport);
   return true;
 }
 
 bool tud_connect(void) {
+<<<<<<< Updated upstream
+=======
+  TU_VERIFY(dcd_connect);
+>>>>>>> Stashed changes
   dcd_connect(_usbd_rhport);
   return true;
 }
 
+<<<<<<< Updated upstream
 void tud_sof_cb_enable(bool en) {
   usbd_sof_enable(_usbd_rhport, SOF_CONSUMER_USER, en);
 }
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // USBD Task
 //--------------------------------------------------------------------+
@@ -416,7 +590,11 @@ bool tud_init(uint8_t rhport) {
   // skip if already initialized
   if (tud_inited()) return true;
 
+<<<<<<< Updated upstream
   TU_LOG_USBD("USBD init on controller %u, Highspeed = %u\r\n", rhport, TUD_OPT_HIGH_SPEED);
+=======
+  TU_LOG_USBD("USBD init on controller %u\r\n", rhport);
+>>>>>>> Stashed changes
   TU_LOG_INT(CFG_TUD_LOG_LEVEL, sizeof(usbd_device_t));
   TU_LOG_INT(CFG_TUD_LOG_LEVEL, sizeof(dcd_event_t));
   TU_LOG_INT(CFG_TUD_LOG_LEVEL, sizeof(tu_fifo_t));
@@ -442,7 +620,11 @@ bool tud_init(uint8_t rhport) {
   // Init class drivers
   for (uint8_t i = 0; i < TOTAL_DRIVER_COUNT; i++) {
     usbd_class_driver_t const* driver = get_driver(i);
+<<<<<<< Updated upstream
     TU_ASSERT(driver && driver->init);
+=======
+    TU_ASSERT(driver);
+>>>>>>> Stashed changes
     TU_LOG_USBD("%s init\r\n", driver->name);
     driver->init();
   }
@@ -456,6 +638,7 @@ bool tud_init(uint8_t rhport) {
   return true;
 }
 
+<<<<<<< Updated upstream
 bool tud_deinit(uint8_t rhport) {
   // skip if not initialized
   if (!tud_inited()) return true;
@@ -491,6 +674,8 @@ bool tud_deinit(uint8_t rhport) {
   return true;
 }
 
+=======
+>>>>>>> Stashed changes
 static void configuration_reset(uint8_t rhport) {
   for (uint8_t i = 0; i < TOTAL_DRIVER_COUNT; i++) {
     usbd_class_driver_t const* driver = get_driver(i);
@@ -635,12 +820,15 @@ void tud_task_ext(uint32_t timeout_ms, bool in_isr) {
         break;
 
       case DCD_EVENT_SOF:
+<<<<<<< Updated upstream
         if (tu_bit_test(_usbd_dev.sof_consumer, SOF_CONSUMER_USER)) {
           TU_LOG_USBD("\r\n");
           tud_sof_cb(event.sof.frame_count);
         }
       break;
 
+=======
+>>>>>>> Stashed changes
       default:
         TU_BREAKPOINT();
         break;
@@ -665,7 +853,11 @@ static bool invoke_class_control(uint8_t rhport, usbd_class_driver_t const * dri
 }
 
 // This handles the actual request and its response.
+<<<<<<< Updated upstream
 // Returns false if unable to complete the request, causing caller to stall control endpoints.
+=======
+// return false will cause its caller to stall control endpoint
+>>>>>>> Stashed changes
 static bool process_control_request(uint8_t rhport, tusb_control_request_t const * p_request) {
   usbd_control_set_complete_callback(NULL);
   TU_ASSERT(p_request->bmRequestType_bit.type < TUSB_REQ_TYPE_INVALID);
@@ -731,9 +923,12 @@ static bool process_control_request(uint8_t rhport, tusb_control_request_t const
               // already configured: need to clear all endpoints and driver first
               TU_LOG_USBD("  Clear current Configuration (%u) before switching\r\n", _usbd_dev.cfg_num);
 
+<<<<<<< Updated upstream
               // disable SOF
               dcd_sof_enable(rhport, false);
 
+=======
+>>>>>>> Stashed changes
               // close all non-control endpoints, cancel all pending transfers if any
               dcd_edpt_close_all(rhport);
 
@@ -764,6 +959,7 @@ static bool process_control_request(uint8_t rhport, tusb_control_request_t const
         break;
 
         case TUSB_REQ_SET_FEATURE:
+<<<<<<< Updated upstream
           // Handle the feature selector
           switch(p_request->wValue)
           {
@@ -805,6 +1001,16 @@ static bool process_control_request(uint8_t rhport, tusb_control_request_t const
             // Stall unsupported feature selector
             default: return false;
           }
+=======
+          // Only support remote wakeup for device feature
+          TU_VERIFY(TUSB_REQ_FEATURE_REMOTE_WAKEUP == p_request->wValue);
+
+          TU_LOG_USBD("    Enable Remote Wakeup\r\n");
+
+          // Host may enable remote wake up before suspending especially HID device
+          _usbd_dev.remote_wakeup_en = true;
+          tud_control_status(rhport, p_request);
+>>>>>>> Stashed changes
         break;
 
         case TUSB_REQ_CLEAR_FEATURE:
@@ -1132,6 +1338,7 @@ static bool process_get_descriptor(uint8_t rhport, tusb_control_request_t const 
   }
 }
 
+<<<<<<< Updated upstream
 #if CFG_TUD_TEST_MODE
 static bool process_test_mode_cb(uint8_t rhport, uint8_t stage, tusb_control_request_t const * request)
 {
@@ -1146,6 +1353,8 @@ static bool process_test_mode_cb(uint8_t rhport, uint8_t stage, tusb_control_req
 }
 #endif /* CFG_TUD_TEST_MODE */
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // DCD Event Handler
 //--------------------------------------------------------------------+
@@ -1180,6 +1389,7 @@ TU_ATTR_FAST_FUNC void dcd_event_handler(dcd_event_t const* event, bool in_isr) 
       break;
 
     case DCD_EVENT_SOF:
+<<<<<<< Updated upstream
       // SOF driver handler in ISR context
       for (uint8_t i = 0; i < TOTAL_DRIVER_COUNT; i++) {
         usbd_class_driver_t const* driver = get_driver(i);
@@ -1188,6 +1398,8 @@ TU_ATTR_FAST_FUNC void dcd_event_handler(dcd_event_t const* event, bool in_isr) 
         }
       }
 
+=======
+>>>>>>> Stashed changes
       // Some MCUs after running dcd_remote_wakeup() does not have way to detect the end of remote wakeup
       // which last 1-15 ms. DCD can use SOF as a clear indicator that bus is back to operational
       if (_usbd_dev.suspended) {
@@ -1197,10 +1409,22 @@ TU_ATTR_FAST_FUNC void dcd_event_handler(dcd_event_t const* event, bool in_isr) 
         queue_event(&event_resume, in_isr);
       }
 
+<<<<<<< Updated upstream
       if (tu_bit_test(_usbd_dev.sof_consumer, SOF_CONSUMER_USER)) {
         dcd_event_t const event_sof = {.rhport = event->rhport, .event_id = DCD_EVENT_SOF, .sof.frame_count = event->sof.frame_count};
         queue_event(&event_sof, in_isr);
       }
+=======
+      // SOF driver handler in ISR context
+      for (uint8_t i = 0; i < TOTAL_DRIVER_COUNT; i++) {
+        usbd_class_driver_t const* driver = get_driver(i);
+        if (driver && driver->sof) {
+          driver->sof(event->rhport, event->sof.frame_count);
+        }
+      }
+
+      // skip osal queue for SOF in usbd task
+>>>>>>> Stashed changes
       break;
 
     case DCD_EVENT_SETUP_RECEIVED:
@@ -1315,11 +1539,14 @@ bool usbd_edpt_xfer(uint8_t rhport, uint8_t ep_addr, uint8_t* buffer, uint16_t t
   // TU_VERIFY(tud_ready());
 
   TU_LOG_USBD("  Queue EP %02X with %u bytes ...\r\n", ep_addr, total_bytes);
+<<<<<<< Updated upstream
 #if CFG_TUD_LOG_LEVEL >= 3
   if(dir == TUSB_DIR_IN) {
     TU_LOG_MEM(CFG_TUD_LOG_LEVEL, buffer, total_bytes, 2);
   }
 #endif
+=======
+>>>>>>> Stashed changes
 
   // Attempt to transfer on a busy endpoint, sound like an race condition !
   TU_ASSERT(_usbd_dev.ep_status[epnum][dir].busy == 0);
@@ -1388,10 +1615,19 @@ void usbd_edpt_stall(uint8_t rhport, uint8_t ep_addr) {
   uint8_t const dir = tu_edpt_dir(ep_addr);
 
   // only stalled if currently cleared
+<<<<<<< Updated upstream
   TU_LOG_USBD("    Stall EP %02X\r\n", ep_addr);
   dcd_edpt_stall(rhport, ep_addr);
   _usbd_dev.ep_status[epnum][dir].stalled = 1;
   _usbd_dev.ep_status[epnum][dir].busy = 1;
+=======
+  if (!_usbd_dev.ep_status[epnum][dir].stalled) {
+    TU_LOG_USBD("    Stall EP %02X\r\n", ep_addr);
+    dcd_edpt_stall(rhport, ep_addr);
+    _usbd_dev.ep_status[epnum][dir].stalled = 1;
+    _usbd_dev.ep_status[epnum][dir].busy = 1;
+  }
+>>>>>>> Stashed changes
 }
 
 void usbd_edpt_clear_stall(uint8_t rhport, uint8_t ep_addr) {
@@ -1401,10 +1637,19 @@ void usbd_edpt_clear_stall(uint8_t rhport, uint8_t ep_addr) {
   uint8_t const dir = tu_edpt_dir(ep_addr);
 
   // only clear if currently stalled
+<<<<<<< Updated upstream
   TU_LOG_USBD("    Clear Stall EP %02X\r\n", ep_addr);
   dcd_edpt_clear_stall(rhport, ep_addr);
   _usbd_dev.ep_status[epnum][dir].stalled = 0;
   _usbd_dev.ep_status[epnum][dir].busy = 0;
+=======
+  if (_usbd_dev.ep_status[epnum][dir].stalled) {
+    TU_LOG_USBD("    Clear Stall EP %02X\r\n", ep_addr);
+    dcd_edpt_clear_stall(rhport, ep_addr);
+    _usbd_dev.ep_status[epnum][dir].stalled = 0;
+    _usbd_dev.ep_status[epnum][dir].busy = 0;
+  }
+>>>>>>> Stashed changes
 }
 
 bool usbd_edpt_stalled(uint8_t rhport, uint8_t ep_addr) {
@@ -1437,6 +1682,7 @@ void usbd_edpt_close(uint8_t rhport, uint8_t ep_addr) {
   return;
 }
 
+<<<<<<< Updated upstream
 void usbd_sof_enable(uint8_t rhport, sof_consumer_t consumer, bool en) {
   rhport = _usbd_rhport;
 
@@ -1452,6 +1698,14 @@ void usbd_sof_enable(uint8_t rhport, sof_consumer_t consumer, bool en) {
   if(!_usbd_dev.sof_consumer != !consumer_old) {
     dcd_sof_enable(rhport, _usbd_dev.sof_consumer);
   }
+=======
+void usbd_sof_enable(uint8_t rhport, bool en) {
+  rhport = _usbd_rhport;
+
+  // TODO: Check needed if all drivers including the user sof_cb does not need an active SOF ISR any more.
+  // Only if all drivers switched off SOF calls the SOF interrupt may be disabled
+  dcd_sof_enable(rhport, en);
+>>>>>>> Stashed changes
 }
 
 bool usbd_edpt_iso_alloc(uint8_t rhport, uint8_t ep_addr, uint16_t largest_packet_size) {

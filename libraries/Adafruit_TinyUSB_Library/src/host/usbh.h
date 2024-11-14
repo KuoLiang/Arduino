@@ -73,6 +73,7 @@ typedef struct {
   tusb_desc_interface_t desc;
 } tuh_itf_info_t;
 
+<<<<<<< Updated upstream
 // ConfigID for tuh_configure()
 enum {
   TUH_CFGID_INVALID = 0,
@@ -92,6 +93,13 @@ typedef union {
   tuh_configure_max3421_t max3421;
 } tuh_configure_param_t;
 
+=======
+// ConfigID for tuh_config()
+enum {
+  TUH_CFGID_RPI_PIO_USB_CONFIGURATION = OPT_MCU_RP2040 << 8 // cfg_param: pio_usb_configuration_t
+};
+
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // APPLICATION CALLBACK
 //--------------------------------------------------------------------+
@@ -123,11 +131,15 @@ bool tuh_configure(uint8_t rhport, uint32_t cfg_id, const void* cfg_param);
 // Init host stack
 bool tuh_init(uint8_t rhport);
 
+<<<<<<< Updated upstream
 // Deinit host stack on rhport
 bool tuh_deinit(uint8_t rhport);
 
 // Check if host stack is already initialized with any roothub ports
 // To check if an rhport is initialized, use tuh_rhport_is_active()
+=======
+// Check if host stack is already initialized with any roothub ports
+>>>>>>> Stashed changes
 bool tuh_inited(void);
 
 // Task function should be called in main/rtos loop, extended version of tuh_task()

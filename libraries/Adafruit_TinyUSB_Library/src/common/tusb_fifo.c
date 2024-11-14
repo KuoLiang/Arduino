@@ -62,9 +62,13 @@ TU_ATTR_ALWAYS_INLINE static inline void _ff_unlock(osal_mutex_t mutex)
 typedef enum
 {
   TU_FIFO_COPY_INC,            ///< Copy from/to an increasing source/destination address - default mode
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
   TU_FIFO_COPY_CST_FULL_WORDS, ///< Copy from/to a constant source/destination address - required for e.g. STM32 to write into USB hardware FIFO
 #endif
+=======
+  TU_FIFO_COPY_CST_FULL_WORDS, ///< Copy from/to a constant source/destination address - required for e.g. STM32 to write into USB hardware FIFO
+>>>>>>> Stashed changes
 } tu_fifo_copy_mode_t;
 
 bool tu_fifo_config(tu_fifo_t *f, void* buffer, uint16_t depth, uint16_t item_size, bool overwritable)
@@ -94,7 +98,10 @@ bool tu_fifo_config(tu_fifo_t *f, void* buffer, uint16_t depth, uint16_t item_si
 // Pull & Push
 //--------------------------------------------------------------------+
 
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
+=======
+>>>>>>> Stashed changes
 // Intended to be used to read from hardware USB FIFO in e.g. STM32 where all data is read from a constant address
 // Code adapted from dcd_synopsys.c
 // TODO generalize with configurable 1 byte or 4 byte each read
@@ -143,7 +150,10 @@ static void _ff_pull_const_addr(void * app_buf, const uint8_t * ff_buf, uint16_t
     *reg_tx = tmp32;
   }
 }
+<<<<<<< Updated upstream
 #endif
+=======
+>>>>>>> Stashed changes
 
 // send one item to fifo WITHOUT updating write pointer
 static inline void _ff_push(tu_fifo_t* f, void const * app_buf, uint16_t rel)
@@ -183,7 +193,11 @@ static void _ff_push_n(tu_fifo_t* f, void const * app_buf, uint16_t n, uint16_t 
         memcpy(f->buffer, ((uint8_t const*) app_buf) + lin_bytes, wrap_bytes);
       }
       break;
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
+=======
+
+>>>>>>> Stashed changes
     case TU_FIFO_COPY_CST_FULL_WORDS:
       // Intended for hardware buffers from which it can be read word by word only
       if(n <= lin_count)
@@ -228,7 +242,10 @@ static void _ff_push_n(tu_fifo_t* f, void const * app_buf, uint16_t n, uint16_t 
         if (wrap_bytes > 0) _ff_push_const_addr(ff_buf, app_buf, wrap_bytes);
       }
       break;
+<<<<<<< Updated upstream
 #endif
+=======
+>>>>>>> Stashed changes
     default: break;
   }
 }
@@ -270,7 +287,11 @@ static void _ff_pull_n(tu_fifo_t* f, void* app_buf, uint16_t n, uint16_t rd_ptr,
         memcpy((uint8_t*) app_buf + lin_bytes, f->buffer, wrap_bytes);
       }
     break;
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
+=======
+
+>>>>>>> Stashed changes
     case TU_FIFO_COPY_CST_FULL_WORDS:
       if ( n <= lin_count )
       {
@@ -315,7 +336,10 @@ static void _ff_pull_n(tu_fifo_t* f, void* app_buf, uint16_t n, uint16_t rd_ptr,
         // Read data wrapped part
         if (wrap_bytes > 0) _ff_pull_const_addr(app_buf, ff_buf, wrap_bytes);
       }
+<<<<<<< Updated upstream
 #endif
+=======
+>>>>>>> Stashed changes
     break;
 
     default: break;
@@ -733,6 +757,7 @@ uint16_t tu_fifo_read_n(tu_fifo_t* f, void * buffer, uint16_t n)
   return _tu_fifo_read_n(f, buffer, n, TU_FIFO_COPY_INC);
 }
 
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
 /******************************************************************************/
 /*!
@@ -751,11 +776,16 @@ uint16_t tu_fifo_read_n(tu_fifo_t* f, void * buffer, uint16_t n)
     @returns number of items read from the FIFO
  */
 /******************************************************************************/
+=======
+>>>>>>> Stashed changes
 uint16_t tu_fifo_read_n_const_addr_full_words(tu_fifo_t* f, void * buffer, uint16_t n)
 {
   return _tu_fifo_read_n(f, buffer, n, TU_FIFO_COPY_CST_FULL_WORDS);
 }
+<<<<<<< Updated upstream
 #endif
+=======
+>>>>>>> Stashed changes
 
 /******************************************************************************/
 /*!
@@ -864,7 +894,10 @@ uint16_t tu_fifo_write_n(tu_fifo_t* f, const void * data, uint16_t n)
   return _tu_fifo_write_n(f, data, n, TU_FIFO_COPY_INC);
 }
 
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
+=======
+>>>>>>> Stashed changes
 /******************************************************************************/
 /*!
     @brief This function will write n elements into the array index specified by
@@ -884,7 +917,10 @@ uint16_t tu_fifo_write_n_const_addr_full_words(tu_fifo_t* f, const void * data, 
 {
   return _tu_fifo_write_n(f, data, n, TU_FIFO_COPY_CST_FULL_WORDS);
 }
+<<<<<<< Updated upstream
 #endif
+=======
+>>>>>>> Stashed changes
 
 /******************************************************************************/
 /*!

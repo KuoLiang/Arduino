@@ -2,7 +2,10 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2021, Ha Thach (tinyusb.org)
+<<<<<<< Updated upstream
  * Copyright (c) 2024, Hardy Griech
+=======
+>>>>>>> Stashed changes
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +28,16 @@
  * This file is part of the TinyUSB stack.
  */
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 #ifndef _TUSB_NCM_H_
 #define _TUSB_NCM_H_
 
 #include "common/tusb_common.h"
 
+<<<<<<< Updated upstream
 // NTB buffers size for reception side, must be >> MTU to avoid TCP retransmission (driver issue ?)
 // Linux use 2048 as minimal size
 #ifndef CFG_TUD_NCM_OUT_NTB_MAX_SIZE
@@ -77,6 +85,18 @@
 #ifndef CFG_TUD_NCM_OUT_MAX_DATAGRAMS_PER_NTB
   #define CFG_TUD_NCM_OUT_MAX_DATAGRAMS_PER_NTB 6
 #endif
+=======
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+// Table 4.3 Data Class Interface Protocol Codes
+typedef enum
+{
+  NCM_DATA_PROTOCOL_NETWORK_TRANSFER_BLOCK = 0x01
+} ncm_data_interface_protocol_code_t;
+
+>>>>>>> Stashed changes
 
 // Table 6.2 Class-Specific Request Codes for Network Control Model subclass
 typedef enum
@@ -99,6 +119,7 @@ typedef enum
   NCM_SET_CRC_MODE                                 = 0x8A,
 } ncm_request_code_t;
 
+<<<<<<< Updated upstream
 #define NTH16_SIGNATURE 0x484D434E
 #define NDP16_SIGNATURE_NCM0 0x304D434E
 #define NDP16_SIGNATURE_NCM1 0x314D434E
@@ -159,5 +180,10 @@ struct ncm_notify_t {
   tusb_control_request_t header;
   uint32_t downlink, uplink;
 };
+=======
+#ifdef __cplusplus
+ }
+#endif
+>>>>>>> Stashed changes
 
 #endif

@@ -924,6 +924,7 @@ typedef struct TU_ATTR_PACKED {
     } subrange[numSubRanges];                   \
 }
 
+<<<<<<< Updated upstream
 // 6.1 Interrupt Data Message Format
 typedef struct TU_ATTR_PACKED
 {
@@ -949,6 +950,8 @@ typedef struct TU_ATTR_PACKED
   };
 } audio_interrupt_data_t;
 
+=======
+>>>>>>> Stashed changes
 /** @} */
 
 #ifdef __cplusplus

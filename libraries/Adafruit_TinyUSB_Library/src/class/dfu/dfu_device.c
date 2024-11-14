@@ -165,6 +165,7 @@ void dfu_moded_reset(uint8_t rhport)
   reset_state();
 }
 
+<<<<<<< Updated upstream
 void dfu_moded_init(void) {
   dfu_moded_reset(0);
 }
@@ -173,6 +174,13 @@ bool dfu_moded_deinit(void) {
   return true;
 }
 
+=======
+void dfu_moded_init(void)
+{
+  dfu_moded_reset(0);
+}
+
+>>>>>>> Stashed changes
 uint16_t dfu_moded_open(uint8_t rhport, tusb_desc_interface_t const * itf_desc, uint16_t max_len)
 {
   (void) rhport;

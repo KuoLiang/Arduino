@@ -41,8 +41,11 @@
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 #define BULK_PACKET_SIZE (TUD_OPT_HIGH_SPEED ? 512 : 64)
 
+=======
+>>>>>>> Stashed changes
 typedef struct
 {
   uint8_t itf_num;
@@ -176,16 +179,26 @@ uint32_t tud_vendor_n_write_available (uint8_t itf)
 //--------------------------------------------------------------------+
 // USBD Driver API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 void vendord_init(void) {
   tu_memclr(_vendord_itf, sizeof(_vendord_itf));
 
   for(uint8_t i=0; i<CFG_TUD_VENDOR; i++) {
+=======
+void vendord_init(void)
+{
+  tu_memclr(_vendord_itf, sizeof(_vendord_itf));
+
+  for(uint8_t i=0; i<CFG_TUD_VENDOR; i++)
+  {
+>>>>>>> Stashed changes
     vendord_interface_t* p_itf = &_vendord_itf[i];
 
     // config fifo
     tu_fifo_config(&p_itf->rx_ff, p_itf->rx_ff_buf, CFG_TUD_VENDOR_RX_BUFSIZE, 1, false);
     tu_fifo_config(&p_itf->tx_ff, p_itf->tx_ff_buf, CFG_TUD_VENDOR_TX_BUFSIZE, 1, false);
 
+<<<<<<< Updated upstream
     #if OSAL_MUTEX_REQUIRED
     osal_mutex_t mutex_rd = osal_mutex_create(&p_itf->rx_ff_mutex);
     osal_mutex_t mutex_wr = osal_mutex_create(&p_itf->tx_ff_mutex);
@@ -219,6 +232,13 @@ bool vendord_deinit(void) {
   return true;
 }
 
+=======
+    tu_fifo_config_mutex(&p_itf->rx_ff, NULL, osal_mutex_create(&p_itf->rx_ff_mutex));
+    tu_fifo_config_mutex(&p_itf->tx_ff, osal_mutex_create(&p_itf->tx_ff_mutex), NULL);
+  }
+}
+
+>>>>>>> Stashed changes
 void vendord_reset(uint8_t rhport)
 {
   (void) rhport;
@@ -280,6 +300,10 @@ uint16_t vendord_open(uint8_t rhport, tusb_desc_interface_t const * desc_itf, ui
 
 bool vendord_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint32_t xferred_bytes)
 {
+<<<<<<< Updated upstream
+=======
+  (void) rhport;
+>>>>>>> Stashed changes
   (void) result;
 
   uint8_t itf = 0;
@@ -306,6 +330,7 @@ bool vendord_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint
   {
     if (tud_vendor_tx_cb) tud_vendor_tx_cb(itf, (uint16_t) xferred_bytes);
     // Send complete, try to send more if possible
+<<<<<<< Updated upstream
     if ( 0 == tud_vendor_n_write_flush(itf) )
     {
       // If there is no data left, a ZLP should be sent if
@@ -318,6 +343,9 @@ bool vendord_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint
         }
       }
     }
+=======
+    tud_vendor_n_write_flush(itf);
+>>>>>>> Stashed changes
   }
 
   return true;

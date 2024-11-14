@@ -23,8 +23,13 @@
  *
  * This file is part of the TinyUSB stack.
  */
+<<<<<<< Updated upstream
 #ifndef TUSB_USBD_PVT_H_
 #define TUSB_USBD_PVT_H_
+=======
+#ifndef _TUSB_USBD_PVT_H_
+#define _TUSB_USBD_PVT_H_
+>>>>>>> Stashed changes
 
 #include "osal/osal.h"
 #include "common/tusb_fifo.h"
@@ -33,6 +38,7 @@
  extern "C" {
 #endif
 
+<<<<<<< Updated upstream
 #define TU_LOG_USBD(...)   TU_LOG(CFG_TUD_LOG_LEVEL, __VA_ARGS__)
 
 //--------------------------------------------------------------------+
@@ -45,13 +51,31 @@ typedef enum {
 } sof_consumer_t;
 
 //--------------------------------------------------------------------+
+=======
+// Level where CFG_TUSB_DEBUG must be at least for USBD is logged
+#ifndef CFG_TUD_LOG_LEVEL
+#define CFG_TUD_LOG_LEVEL   2
+#endif
+
+#define TU_LOG_USBD(...)   TU_LOG(CFG_TUD_LOG_LEVEL, __VA_ARGS__)
+
+//--------------------------------------------------------------------+
+>>>>>>> Stashed changes
 // Class Driver API
 //--------------------------------------------------------------------+
 
 typedef struct {
+<<<<<<< Updated upstream
   char const* name;
   void     (* init             ) (void);
   bool     (* deinit           ) (void);
+=======
+  #if CFG_TUSB_DEBUG >= CFG_TUD_LOG_LEVEL
+  char const* name;
+  #endif
+
+  void     (* init             ) (void);
+>>>>>>> Stashed changes
   void     (* reset            ) (uint8_t rhport);
   uint16_t (* open             ) (uint8_t rhport, tusb_desc_interface_t const * desc_intf, uint16_t max_len);
   bool     (* control_xfer_cb  ) (uint8_t rhport, uint8_t stage, tusb_control_request_t const * request);
@@ -117,7 +141,11 @@ bool usbd_edpt_ready(uint8_t rhport, uint8_t ep_addr) {
 }
 
 // Enable SOF interrupt
+<<<<<<< Updated upstream
 void usbd_sof_enable(uint8_t rhport, sof_consumer_t consumer, bool en);
+=======
+void usbd_sof_enable(uint8_t rhport, bool en);
+>>>>>>> Stashed changes
 
 /*------------------------------------------------------------------*/
 /* Helper

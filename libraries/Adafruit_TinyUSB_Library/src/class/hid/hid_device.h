@@ -72,6 +72,7 @@ bool tud_hid_n_keyboard_report(uint8_t instance, uint8_t report_id, uint8_t modi
 // use template layout report as defined by hid_mouse_report_t
 bool tud_hid_n_mouse_report(uint8_t instance, uint8_t report_id, uint8_t buttons, int8_t x, int8_t y, int8_t vertical, int8_t horizontal);
 
+<<<<<<< Updated upstream
 // ABSOLUTE MOUSE: convenient helper to send absolute mouse report if application
 // use template layout report as defined by hid_abs_mouse_report_t
 bool tud_hid_n_abs_mouse_report(uint8_t instance, uint8_t report_id, uint8_t buttons, int16_t x, int16_t y, int8_t vertical, int8_t horizontal);
@@ -82,6 +83,8 @@ static inline bool tud_hid_abs_mouse_report(uint8_t report_id, uint8_t buttons, 
   return tud_hid_n_abs_mouse_report(0, report_id, buttons, x, y, vertical, horizontal);
 }
 
+=======
+>>>>>>> Stashed changes
 // Gamepad: convenient helper to send gamepad report if application
 // use template layout report TUD_HID_REPORT_DESC_GAMEPAD
 bool tud_hid_n_gamepad_report(uint8_t instance, uint8_t report_id, int8_t x, int8_t y, int8_t z, int8_t rz, int8_t rx, int8_t ry, uint8_t hat, uint32_t buttons);
@@ -128,8 +131,11 @@ TU_ATTR_WEAK bool tud_hid_set_idle_cb(uint8_t instance, uint8_t idle_rate);
 // Note: For composite reports, report[0] is report ID
 TU_ATTR_WEAK void tud_hid_report_complete_cb(uint8_t instance, uint8_t const* report, uint16_t len);
 
+<<<<<<< Updated upstream
 // Invoked when a transfer wasn't successful
 TU_ATTR_WEAK void tud_hid_report_fail_cb(uint8_t instance, uint8_t ep_addr, uint16_t len);
+=======
+>>>>>>> Stashed changes
 
 //--------------------------------------------------------------------+
 // Inline Functions
@@ -278,6 +284,7 @@ static inline bool  tud_hid_gamepad_report(uint8_t report_id, int8_t x, int8_t y
     HID_COLLECTION_END                                            , \
   HID_COLLECTION_END \
 
+<<<<<<< Updated upstream
 // Absolute Mouse Report Descriptor Template
 #define TUD_HID_REPORT_DESC_ABSMOUSE(...) \
   HID_USAGE_PAGE ( HID_USAGE_PAGE_DESKTOP      )                   ,\
@@ -327,6 +334,8 @@ static inline bool  tud_hid_gamepad_report(uint8_t report_id, int8_t x, int8_t y
     HID_COLLECTION_END                                            , \
   HID_COLLECTION_END \
 
+=======
+>>>>>>> Stashed changes
 // Consumer Control Report Descriptor Template
 #define TUD_HID_REPORT_DESC_CONSUMER(...) \
   HID_USAGE_PAGE ( HID_USAGE_PAGE_CONSUMER    )              ,\
@@ -463,6 +472,7 @@ static inline bool  tud_hid_gamepad_report(uint8_t report_id, int8_t x, int8_t y
       HID_OUTPUT      ( HID_DATA | HID_VARIABLE | HID_ABSOLUTE  ),\
     HID_COLLECTION_END \
 
+<<<<<<< Updated upstream
 // HID Lighting and Illumination Report Descriptor Template
 // - 1st parameter is report id (required)
 //   Creates 6 report ids for lighting HID usages in the following order:
@@ -635,17 +645,25 @@ static inline bool  tud_hid_gamepad_report(uint8_t report_id, int8_t x, int8_t y
     HID_COLLECTION_END ,\
   HID_COLLECTION_END \
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // Internal Class Driver API
 //--------------------------------------------------------------------+
 void     hidd_init            (void);
+<<<<<<< Updated upstream
 bool     hidd_deinit          (void);
+=======
+>>>>>>> Stashed changes
 void     hidd_reset           (uint8_t rhport);
 uint16_t hidd_open            (uint8_t rhport, tusb_desc_interface_t const * itf_desc, uint16_t max_len);
 bool     hidd_control_xfer_cb (uint8_t rhport, uint8_t stage, tusb_control_request_t const * request);
 bool     hidd_xfer_cb         (uint8_t rhport, uint8_t ep_addr, xfer_result_t event, uint32_t xferred_bytes);
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 #ifdef __cplusplus
  }
 #endif

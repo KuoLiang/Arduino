@@ -407,6 +407,7 @@ void dcd_init(uint8_t rhport) {
   dcd_connect(rhport);
 }
 
+<<<<<<< Updated upstream
 bool dcd_deinit(uint8_t rhport) {
   (void) rhport;
 
@@ -420,6 +421,8 @@ bool dcd_deinit(uint8_t rhport) {
   return true;
 }
 
+=======
+>>>>>>> Stashed changes
 void dcd_int_enable(__unused uint8_t rhport) {
   assert(rhport == 0);
   irq_set_enabled(USBCTRL_IRQ, true);

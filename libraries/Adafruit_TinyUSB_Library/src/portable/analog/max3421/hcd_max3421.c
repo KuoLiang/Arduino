@@ -35,7 +35,10 @@
 
 #include <stdatomic.h>
 #include "host/hcd.h"
+<<<<<<< Updated upstream
 #include "host/usbh.h"
+=======
+>>>>>>> Stashed changes
 
 //--------------------------------------------------------------------+
 //
@@ -172,6 +175,7 @@ enum {
   DEFAULT_HIEN = HIRQ_CONDET_IRQ | HIRQ_FRAME_IRQ | HIRQ_HXFRDN_IRQ | HIRQ_RCVDAV_IRQ
 };
 
+<<<<<<< Updated upstream
 enum {
   MAX_NAK_DEFAULT = 1 // Number of NAK per endpoint per usb frame
 };
@@ -184,6 +188,8 @@ enum {
   EP_STATE_ATTEMPT_MAX = 15
 };
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 //
 //--------------------------------------------------------------------+
@@ -191,6 +197,7 @@ enum {
 typedef struct {
   uint8_t daddr;
 
+<<<<<<< Updated upstream
   union { ;
     struct TU_ATTR_PACKED {
       uint8_t ep_num   : 4;
@@ -206,6 +213,20 @@ typedef struct {
     uint8_t state        : 4;
     uint8_t data_toggle  : 1;
     uint16_t packet_size : 11;
+=======
+  struct TU_ATTR_PACKED {
+    uint8_t ep_dir        : 1;
+    uint8_t is_iso        : 1;
+    uint8_t is_setup      : 1;
+    uint8_t data_toggle   : 1;
+    uint8_t xfer_pending  : 1;
+    uint8_t xfer_complete : 1;
+  };
+
+  struct TU_ATTR_PACKED {
+    uint8_t ep_num : 4;
+    uint16_t packet_size : 12;
+>>>>>>> Stashed changes
   };
 
   uint16_t total_len;
@@ -216,8 +237,11 @@ typedef struct {
 TU_VERIFY_STATIC(sizeof(max3421_ep_t) == 12, "size is not correct");
 
 typedef struct {
+<<<<<<< Updated upstream
   volatile uint16_t frame_count;
 
+=======
+>>>>>>> Stashed changes
   // cached register
   uint8_t sndbc;
   uint8_t hirq;
@@ -227,6 +251,7 @@ typedef struct {
   uint8_t hxfr;
 
   atomic_flag busy; // busy transferring
+<<<<<<< Updated upstream
 
 #if OSAL_MUTEX_REQUIRED
   OSAL_MUTEX_DEF(spi_mutexdef);
@@ -234,10 +259,21 @@ typedef struct {
 #endif
 
   max3421_ep_t ep[CFG_TUH_MAX3421_ENDPOINT_TOTAL]; // [0] is reserved for addr0
+=======
+  volatile uint16_t frame_count;
+
+  max3421_ep_t ep[CFG_TUH_MAX3421_ENDPOINT_TOTAL]; // [0] is reserved for addr0
+
+  OSAL_MUTEX_DEF(spi_mutexdef);
+#if OSAL_MUTEX_REQUIRED
+  osal_mutex_t spi_mutex;
+#endif
+>>>>>>> Stashed changes
 } max3421_data_t;
 
 static max3421_data_t _hcd_data;
 
+<<<<<<< Updated upstream
 // max NAK before giving up in a frame. 0 means infinite NAKs
 static tuh_configure_max3421_t _tuh_cfg = {
     .max_nak = MAX_NAK_DEFAULT,
@@ -245,6 +281,8 @@ static tuh_configure_max3421_t _tuh_cfg = {
     .pinctl = 0, // default: negative edge interrupt
 };
 
+=======
+>>>>>>> Stashed changes
 //--------------------------------------------------------------------+
 // API: SPI transfer with MAX3421E
 // - spi_cs_api(), spi_xfer_api(), int_api(): must be implemented by application
@@ -333,6 +371,10 @@ static void fifo_write(uint8_t rhport, uint8_t reg, uint8_t const * buffer, uint
   tuh_max3421_spi_xfer_api(rhport, buffer, NULL, len);
 
   max3421_spi_unlock(rhport, in_isr);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }
 
 static void fifo_read(uint8_t rhport, uint8_t * buffer, uint16_t len, bool in_isr) {
@@ -349,35 +391,59 @@ static void fifo_read(uint8_t rhport, uint8_t * buffer, uint16_t len, bool in_is
 }
 
 //------------- register write helper -------------//
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void hirq_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void hirq_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   reg_write(rhport, HIRQ_ADDR, data, in_isr);
   // HIRQ write 1 is clear
   _hcd_data.hirq &= (uint8_t) ~data;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void hien_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void hien_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   _hcd_data.hien = data;
   reg_write(rhport, HIEN_ADDR, data, in_isr);
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void mode_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void mode_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   _hcd_data.mode = data;
   reg_write(rhport, MODE_ADDR, data, in_isr);
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void peraddr_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void peraddr_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   if ( _hcd_data.peraddr == data ) return; // no need to change address
 
   _hcd_data.peraddr = data;
   reg_write(rhport, PERADDR_ADDR, data, in_isr);
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void hxfr_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void hxfr_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   _hcd_data.hxfr = data;
   reg_write(rhport, HXFR_ADDR, data, in_isr);
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void sndbc_write(uint8_t rhport, uint8_t data, bool in_isr) {
+=======
+static inline void sndbc_write(uint8_t rhport, uint8_t data, bool in_isr) {
+>>>>>>> Stashed changes
   _hcd_data.sndbc = data;
   reg_write(rhport, SNDBC_ADDR, data, in_isr);
 }
@@ -387,11 +453,18 @@ TU_ATTR_ALWAYS_INLINE static inline void sndbc_write(uint8_t rhport, uint8_t dat
 //--------------------------------------------------------------------+
 
 static max3421_ep_t* find_ep_not_addr0(uint8_t daddr, uint8_t ep_num, uint8_t ep_dir) {
+<<<<<<< Updated upstream
   uint8_t const is_out = 1-ep_dir;
   for(size_t i=1; i<CFG_TUH_MAX3421_ENDPOINT_TOTAL; i++) {
     max3421_ep_t* ep = &_hcd_data.ep[i];
     // control endpoint is bi-direction (skip check)
     if (daddr == ep->daddr && ep_num == ep->hxfr_bm.ep_num && (ep_num == 0 || is_out == ep->hxfr_bm.is_out)) {
+=======
+  for(size_t i=1; i<CFG_TUH_MAX3421_ENDPOINT_TOTAL; i++) {
+    max3421_ep_t* ep = &_hcd_data.ep[i];
+    // for control endpoint, skip direction check
+    if (daddr == ep->daddr && ep_num == ep->ep_num && (ep_dir == ep->ep_dir || ep_num == 0)) {
+>>>>>>> Stashed changes
       return ep;
     }
   }
@@ -422,6 +495,7 @@ static void free_ep(uint8_t daddr) {
   }
 }
 
+<<<<<<< Updated upstream
 // Check if endpoint has an queued transfer and not reach max NAK
 TU_ATTR_ALWAYS_INLINE static inline bool is_ep_pending(max3421_ep_t const * ep) {
   uint8_t const state = ep->state;
@@ -432,13 +506,20 @@ TU_ATTR_ALWAYS_INLINE static inline bool is_ep_pending(max3421_ep_t const * ep) 
 // Find the next pending endpoint using round-robin scheduling, starting from next endpoint.
 // return NULL if not found
 // TODO respect interrupt endpoint's interval
+=======
+>>>>>>> Stashed changes
 static max3421_ep_t * find_next_pending_ep(max3421_ep_t * cur_ep) {
   size_t const idx = (size_t) (cur_ep - _hcd_data.ep);
 
   // starting from next endpoint
   for (size_t i = idx + 1; i < CFG_TUH_MAX3421_ENDPOINT_TOTAL; i++) {
     max3421_ep_t* ep = &_hcd_data.ep[i];
+<<<<<<< Updated upstream
     if (is_ep_pending(ep)) {
+=======
+    if (ep->xfer_pending && ep->packet_size) {
+//      TU_LOG3("next pending i = %u\r\n", i);
+>>>>>>> Stashed changes
       return ep;
     }
   }
@@ -446,7 +527,12 @@ static max3421_ep_t * find_next_pending_ep(max3421_ep_t * cur_ep) {
   // wrap around including current endpoint
   for (size_t i = 0; i <= idx; i++) {
     max3421_ep_t* ep = &_hcd_data.ep[i];
+<<<<<<< Updated upstream
     if (is_ep_pending(ep)) {
+=======
+    if (ep->xfer_pending && ep->packet_size) {
+//      TU_LOG3("next pending i = %u\r\n", i);
+>>>>>>> Stashed changes
       return ep;
     }
   }
@@ -461,12 +547,19 @@ static max3421_ep_t * find_next_pending_ep(max3421_ep_t * cur_ep) {
 // optional hcd configuration, called by tuh_configure()
 bool hcd_configure(uint8_t rhport, uint32_t cfg_id, const void* cfg_param) {
   (void) rhport;
+<<<<<<< Updated upstream
   TU_VERIFY(cfg_id == TUH_CFGID_MAX3421 && cfg_param != NULL);
 
   tuh_configure_param_t const* cfg = (tuh_configure_param_t const*) cfg_param;
   _tuh_cfg = cfg->max3421;
   _tuh_cfg.max_nak = tu_min8(_tuh_cfg.max_nak, EP_STATE_ATTEMPT_MAX-EP_STATE_ATTEMPT_1);
   return true;
+=======
+  (void) cfg_id;
+  (void) cfg_param;
+
+  return false;
+>>>>>>> Stashed changes
 }
 
 // Initialize controller to host mode
@@ -477,7 +570,10 @@ bool hcd_init(uint8_t rhport) {
 
   TU_LOG2_INT(sizeof(max3421_ep_t));
   TU_LOG2_INT(sizeof(max3421_data_t));
+<<<<<<< Updated upstream
   TU_LOG2_INT(offsetof(max3421_data_t, ep));
+=======
+>>>>>>> Stashed changes
 
   tu_memclr(&_hcd_data, sizeof(_hcd_data));
   _hcd_data.peraddr = 0xff; // invalid
@@ -486,6 +582,7 @@ bool hcd_init(uint8_t rhport) {
   _hcd_data.spi_mutex = osal_mutex_create(&_hcd_data.spi_mutexdef);
 #endif
 
+<<<<<<< Updated upstream
   // NOTE: driver does not seem to work without nRST pin signal
 
   // full duplex, interrupt negative edge
@@ -495,6 +592,15 @@ bool hcd_init(uint8_t rhport) {
   uint8_t const revision = reg_read(rhport, REVISION_ADDR, false);
   TU_LOG2_HEX(revision);
   TU_ASSERT(revision == 0x01 || revision == 0x12 || revision == 0x13, false);
+=======
+  // full duplex, interrupt negative edge
+  reg_write(rhport, PINCTL_ADDR, PINCTL_FDUPSPI, false);
+
+  // V1 is 0x01, V2 is 0x12, V3 is 0x13
+  uint8_t const revision = reg_read(rhport, REVISION_ADDR, false);
+  TU_ASSERT(revision == 0x01 || revision == 0x12 || revision == 0x13, false);
+  TU_LOG2_HEX(revision);
+>>>>>>> Stashed changes
 
   // reset
   reg_write(rhport, USBCTL_ADDR, USBCTL_CHIPRES, false);
@@ -518,6 +624,7 @@ bool hcd_init(uint8_t rhport) {
   tuh_max3421_int_api(rhport, true);
 
   // Enable Interrupt pin
+<<<<<<< Updated upstream
   reg_write(rhport, CPUCTL_ADDR, _tuh_cfg.cpuctl | CPUCTL_IE, false);
 
   return true;
@@ -537,6 +644,9 @@ bool hcd_deinit(uint8_t rhport) {
   osal_mutex_delete(_hcd_data.spi_mutex);
   _hcd_data.spi_mutex = NULL;
   #endif
+=======
+  reg_write(rhport, CPUCTL_ADDR, CPUCTL_IE, false);
+>>>>>>> Stashed changes
 
   return true;
 }
@@ -599,6 +709,10 @@ void hcd_device_close(uint8_t rhport, uint8_t dev_addr) {
 // Open an endpoint
 bool hcd_edpt_open(uint8_t rhport, uint8_t daddr, tusb_desc_endpoint_t const * ep_desc) {
   (void) rhport;
+<<<<<<< Updated upstream
+=======
+  (void) daddr;
+>>>>>>> Stashed changes
 
   uint8_t const ep_num = tu_edpt_number(ep_desc->bEndpointAddress);
   tusb_dir_t const ep_dir = tu_edpt_dir(ep_desc->bEndpointAddress);
@@ -610,9 +724,18 @@ bool hcd_edpt_open(uint8_t rhport, uint8_t daddr, tusb_desc_endpoint_t const * e
     ep = allocate_ep();
     TU_ASSERT(ep);
     ep->daddr = daddr;
+<<<<<<< Updated upstream
     ep->hxfr_bm.ep_num = (uint8_t) (ep_num & 0x0f);
     ep->hxfr_bm.is_out = (ep_dir == TUSB_DIR_OUT) ? 1 : 0;
     ep->hxfr_bm.is_iso = (TUSB_XFER_ISOCHRONOUS == ep_desc->bmAttributes.xfer) ? 1 : 0;
+=======
+    ep->ep_num = (uint8_t) (ep_num & 0x0f);
+    ep->ep_dir = (ep_dir == TUSB_DIR_IN) ? 1 : 0;
+  }
+
+  if ( TUSB_XFER_ISOCHRONOUS == ep_desc->bmAttributes.xfer ) {
+    ep->is_iso = 1;
+>>>>>>> Stashed changes
   }
 
   ep->packet_size = (uint16_t) (tu_edpt_packet_size(ep_desc) & 0x7ff);
@@ -620,7 +743,11 @@ bool hcd_edpt_open(uint8_t rhport, uint8_t daddr, tusb_desc_endpoint_t const * e
   return true;
 }
 
+<<<<<<< Updated upstream
 static void xact_out(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_isr) {
+=======
+void xact_out(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_isr) {
+>>>>>>> Stashed changes
   // Page 12: Programming BULK-OUT Transfers
   // TODO double buffered
   if (switch_ep) {
@@ -636,10 +763,19 @@ static void xact_out(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_i
     fifo_write(rhport, SNDFIFO_ADDR, ep->buf, xact_len, in_isr);
   }
   sndbc_write(rhport, xact_len, in_isr);
+<<<<<<< Updated upstream
   hxfr_write(rhport, ep->hxfr, in_isr);
 }
 
 static void xact_in(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_isr) {
+=======
+
+  uint8_t const hxfr = (uint8_t ) (ep->ep_num | HXFR_OUT_NIN | (ep->is_iso ? HXFR_ISO : 0));
+  hxfr_write(rhport, hxfr, in_isr);
+}
+
+void xact_in(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_isr) {
+>>>>>>> Stashed changes
   // Page 13: Programming BULK-IN Transfers
   if (switch_ep) {
     peraddr_write(rhport, ep->daddr, in_isr);
@@ -648,6 +784,7 @@ static void xact_in(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_is
     reg_write(rhport, HCTL_ADDR, hctl, in_isr);
   }
 
+<<<<<<< Updated upstream
   hxfr_write(rhport, ep->hxfr, in_isr);
 }
 
@@ -662,22 +799,46 @@ static void xact_generic(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool 
     // setup
     if (ep->hxfr_bm.is_setup) {
       xact_setup(rhport, ep, in_isr);
+=======
+  uint8_t const hxfr = (uint8_t) (ep->ep_num | (ep->is_iso ? HXFR_ISO : 0));
+  hxfr_write(rhport, hxfr, in_isr);
+}
+
+TU_ATTR_ALWAYS_INLINE static inline void xact_inout(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool in_isr) {
+  if (ep->ep_num == 0 ) {
+    // setup
+    if (ep->is_setup) {
+      peraddr_write(rhport, ep->daddr, in_isr);
+      fifo_write(rhport, SUDFIFO_ADDR, ep->buf, 8, in_isr);
+      hxfr_write(rhport, HXFR_SETUP, in_isr);
+>>>>>>> Stashed changes
       return;
     }
 
     // status
     if (ep->buf == NULL || ep->total_len == 0) {
+<<<<<<< Updated upstream
       uint8_t const hxfr = (uint8_t) (HXFR_HS | (ep->hxfr & HXFR_OUT_NIN));
+=======
+      uint8_t const hxfr = HXFR_HS | (ep->ep_dir ? 0 : HXFR_OUT_NIN);
+>>>>>>> Stashed changes
       peraddr_write(rhport, ep->daddr, in_isr);
       hxfr_write(rhport, hxfr, in_isr);
       return;
     }
   }
 
+<<<<<<< Updated upstream
   if (ep->hxfr_bm.is_out) {
     xact_out(rhport, ep, switch_ep, in_isr);
   }else {
     xact_in(rhport, ep, switch_ep, in_isr);
+=======
+  if (ep->ep_dir) {
+    xact_in(rhport, ep, switch_ep, in_isr);
+  }else {
+    xact_out(rhport, ep, switch_ep, in_isr);
+>>>>>>> Stashed changes
   }
 }
 
@@ -685,6 +846,7 @@ static void xact_generic(uint8_t rhport, max3421_ep_t *ep, bool switch_ep, bool 
 bool hcd_edpt_xfer(uint8_t rhport, uint8_t daddr, uint8_t ep_addr, uint8_t * buffer, uint16_t buflen) {
   uint8_t const ep_num = tu_edpt_number(ep_addr);
   uint8_t const ep_dir = (uint8_t) tu_edpt_dir(ep_addr);
+<<<<<<< Updated upstream
   max3421_ep_t* ep = find_opened_ep(daddr, ep_num, ep_dir);
   TU_VERIFY(ep);
 
@@ -694,20 +856,45 @@ bool hcd_edpt_xfer(uint8_t rhport, uint8_t daddr, uint8_t ep_addr, uint8_t * buf
     ep->hxfr_bm.is_setup = 0;
     ep->data_toggle = 1;
   }
+=======
+
+  max3421_ep_t* ep = find_opened_ep(daddr, ep_num, ep_dir);
+  TU_VERIFY(ep);
+
+  // control transfer can switch direction
+  ep->ep_dir = ep_dir ? 1u : 0u;
+>>>>>>> Stashed changes
 
   ep->buf = buffer;
   ep->total_len = buflen;
   ep->xferred_len = 0;
+<<<<<<< Updated upstream
   ep->state = EP_STATE_ATTEMPT_1;
 
   // carry out transfer if not busy
   if (!atomic_flag_test_and_set(&_hcd_data.busy)) {
     xact_generic(rhport, ep, true, false);
+=======
+  ep->xfer_complete = 0;
+  ep->xfer_pending = 1;
+
+  if ( ep_num == 0 ) {
+    ep->is_setup = 0;
+    ep->data_toggle = 1;
+  }
+
+  // carry out transfer if not busy
+  if ( !atomic_flag_test_and_set(&_hcd_data.busy) ) {
+    xact_inout(rhport, ep, true, false);
+  } else {
+    return true;
+>>>>>>> Stashed changes
   }
 
   return true;
 }
 
+<<<<<<< Updated upstream
 bool hcd_edpt_abort_xfer(uint8_t rhport, uint8_t daddr, uint8_t ep_addr) {
   uint8_t const ep_num = tu_edpt_number(ep_addr);
   uint8_t const ep_dir = (uint8_t) tu_edpt_dir(ep_addr);
@@ -721,6 +908,16 @@ bool hcd_edpt_abort_xfer(uint8_t rhport, uint8_t daddr, uint8_t ep_addr) {
   }
 
   return true;
+=======
+// Abort a queued transfer. Note: it can only abort transfer that has not been started
+// Return true if a queued transfer is aborted, false if there is no transfer to abort
+bool hcd_edpt_abort_xfer(uint8_t rhport, uint8_t dev_addr, uint8_t ep_addr) {
+  (void) rhport;
+  (void) dev_addr;
+  (void) ep_addr;
+
+  return false;
+>>>>>>> Stashed changes
 }
 
 // Submit a special transfer to send 8-byte Setup Packet, when complete hcd_event_xfer_complete() must be invoked
@@ -730,6 +927,7 @@ bool hcd_setup_send(uint8_t rhport, uint8_t daddr, uint8_t const setup_packet[8]
   max3421_ep_t* ep = find_opened_ep(daddr, 0, 0);
   TU_ASSERT(ep);
 
+<<<<<<< Updated upstream
   ep->hxfr_bm.is_out = 1;
   ep->hxfr_bm.is_setup = 1;
   ep->buf = (uint8_t*)(uintptr_t) setup_packet;
@@ -740,14 +938,38 @@ bool hcd_setup_send(uint8_t rhport, uint8_t daddr, uint8_t const setup_packet[8]
   // carry out transfer if not busy
   if (!atomic_flag_test_and_set(&_hcd_data.busy)) {
     xact_setup(rhport, ep, false);
+=======
+  ep->ep_dir = 0;
+  ep->is_setup = 1;
+  ep->buf = (uint8_t*)(uintptr_t) setup_packet;
+  ep->total_len = 8;
+  ep->xferred_len = 0;
+  ep->xfer_complete = 0;
+  ep->xfer_pending = 1;
+
+  // carry out transfer if not busy
+  if ( !atomic_flag_test_and_set(&_hcd_data.busy) ) {
+    xact_inout(rhport, ep, true, false);
+>>>>>>> Stashed changes
   }
 
   return true;
 }
 
+<<<<<<< Updated upstream
 // clear stall, data toggle is also reset to DATA0
 bool hcd_edpt_clear_stall(uint8_t rhport, uint8_t dev_addr, uint8_t ep_addr) {
   (void) rhport;
+=======
+// ESP32 out-of-sync
+#if defined(ARDUINO_ARCH_ESP32) && ESP_ARDUINO_VERSION < 0x02000E && !defined(PLATFORMIO)
+bool hcd_edpt_clear_stall(uint8_t dev_addr, uint8_t ep_addr) {
+#else
+// clear stall, data toggle is also reset to DATA0
+bool hcd_edpt_clear_stall(uint8_t rhport, uint8_t dev_addr, uint8_t ep_addr) {
+  (void) rhport;
+#endif
+>>>>>>> Stashed changes
   (void) dev_addr;
   (void) ep_addr;
 
@@ -804,16 +1026,24 @@ static void handle_connect_irq(uint8_t rhport, bool in_isr) {
 }
 
 static void xfer_complete_isr(uint8_t rhport, max3421_ep_t *ep, xfer_result_t result, uint8_t hrsl, bool in_isr) {
+<<<<<<< Updated upstream
   uint8_t const ep_dir = 1-ep->hxfr_bm.is_out;
   uint8_t const ep_addr = tu_edpt_addr(ep->hxfr_bm.ep_num, ep_dir);
 
   // save data toggle
   if (ep_dir) {
+=======
+  uint8_t const ep_addr = tu_edpt_addr(ep->ep_num, ep->ep_dir);
+
+  // save data toggle
+  if (ep->ep_dir) {
+>>>>>>> Stashed changes
     ep->data_toggle = (hrsl & HRSL_RCVTOGRD) ? 1u : 0u;
   }else {
     ep->data_toggle = (hrsl & HRSL_SNDTOGRD) ? 1u : 0u;
   }
 
+<<<<<<< Updated upstream
   ep->state = EP_STATE_IDLE;
   hcd_event_xfer_complete(ep->daddr, ep_addr, ep->xferred_len, result, in_isr);
 
@@ -821,6 +1051,15 @@ static void xfer_complete_isr(uint8_t rhport, max3421_ep_t *ep, xfer_result_t re
   max3421_ep_t * next_ep = find_next_pending_ep(ep);
   if (next_ep) {
     xact_generic(rhport, next_ep, true, in_isr);
+=======
+  ep->xfer_pending = 0;
+  hcd_event_xfer_complete(ep->daddr, ep_addr, ep->xferred_len, result, in_isr);
+
+  // Find next pending endpoint
+  max3421_ep_t *next_ep = find_next_pending_ep(ep);
+  if (next_ep) {
+    xact_inout(rhport, next_ep, true, in_isr);
+>>>>>>> Stashed changes
   }else {
     // no more pending
     atomic_flag_clear(&_hcd_data.busy);
@@ -830,6 +1069,10 @@ static void xfer_complete_isr(uint8_t rhport, max3421_ep_t *ep, xfer_result_t re
 static void handle_xfer_done(uint8_t rhport, bool in_isr) {
   uint8_t const hrsl = reg_read(rhport, HRSL_ADDR, in_isr);
   uint8_t const hresult = hrsl & HRSL_RESULT_MASK;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   uint8_t const ep_num = _hcd_data.hxfr & HXFR_EPNUM_MASK;
   uint8_t const hxfr_type = _hcd_data.hxfr & 0xf0;
   uint8_t const ep_dir = ((hxfr_type & HXFR_SETUP) || (hxfr_type & HXFR_OUT_NIN)) ? 0 : 1;
@@ -839,6 +1082,7 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
 
   xfer_result_t xfer_result;
   switch(hresult) {
+<<<<<<< Updated upstream
     case HRSL_NAK:
       if (ep->state == EP_STATE_ABORTING) {
         ep->state = EP_STATE_IDLE;
@@ -870,6 +1114,8 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
       // occurred when initialized without any pending transfer. Skip for now
       return;
 
+=======
+>>>>>>> Stashed changes
     case HRSL_SUCCESS:
       xfer_result = XFER_RESULT_SUCCESS;
       break;
@@ -878,6 +1124,33 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
       xfer_result = XFER_RESULT_STALLED;
       break;
 
+<<<<<<< Updated upstream
+=======
+    case HRSL_NAK:
+      if (ep_num == 0) {
+        // NAK on control, retry immediately
+        hxfr_write(rhport, _hcd_data.hxfr, in_isr);
+      }else {
+        // NAK on non-control, find next pending to switch
+        max3421_ep_t *next_ep = find_next_pending_ep(ep);
+
+        if (ep == next_ep) {
+          // this endpoint is only one pending, retry immediately
+          hxfr_write(rhport, _hcd_data.hxfr, in_isr);
+        }else if (next_ep) {
+          // switch to next pending TODO could have issue with double buffered if not clear previously out data
+          xact_inout(rhport, next_ep, true, in_isr);
+        }else {
+          TU_ASSERT(false,);
+        }
+      }
+      return;
+
+    case HRSL_BAD_REQ:
+      // occurred when initialized without any pending transfer. Skip for now
+      return;
+
+>>>>>>> Stashed changes
     default:
       TU_LOG3("HRSL: %02X\r\n", hrsl);
       xfer_result = XFER_RESULT_FAILED;
@@ -891,6 +1164,7 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
 
   if (ep_dir) {
     // IN transfer: fifo data is already received in RCVDAV IRQ
+<<<<<<< Updated upstream
 
     // mark control handshake as complete
     if (hxfr_type & HXFR_HS) {
@@ -899,6 +1173,14 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
 
     // short packet or all bytes transferred
     if (ep->state == EP_STATE_COMPLETE) {
+=======
+    if ( hxfr_type & HXFR_HS ) {
+      ep->xfer_complete = 1;
+    }
+
+    // short packet or all bytes transferred
+    if ( ep->xfer_complete ) {
+>>>>>>> Stashed changes
       xfer_complete_isr(rhport, ep, xfer_result, hrsl, in_isr);
     }else {
       // more to transfer
@@ -932,6 +1214,7 @@ static void handle_xfer_done(uint8_t rhport, bool in_isr) {
 void print_hirq(uint8_t hirq) {
   TU_LOG3_HEX(hirq);
 
+<<<<<<< Updated upstream
   if (hirq & HIRQ_HXFRDN_IRQ)   TU_LOG3(" HXFRDN");
   if (hirq & HIRQ_FRAME_IRQ)    TU_LOG3(" FRAME");
   if (hirq & HIRQ_CONDET_IRQ)   TU_LOG3(" CONDET");
@@ -939,6 +1222,15 @@ void print_hirq(uint8_t hirq) {
   if (hirq & HIRQ_SNDBAV_IRQ)   TU_LOG3(" SNDBAV");
   if (hirq & HIRQ_RCVDAV_IRQ)   TU_LOG3(" RCVDAV");
   if (hirq & HIRQ_RWU_IRQ)      TU_LOG3(" RWU");
+=======
+  if (hirq & HIRQ_HXFRDN_IRQ) TU_LOG3(" HXFRDN");
+  if (hirq & HIRQ_FRAME_IRQ)  TU_LOG3(" FRAME");
+  if (hirq & HIRQ_CONDET_IRQ) TU_LOG3(" CONDET");
+  if (hirq & HIRQ_SUSDN_IRQ)  TU_LOG3(" SUSDN");
+  if (hirq & HIRQ_SNDBAV_IRQ) TU_LOG3(" SNDBAV");
+  if (hirq & HIRQ_RCVDAV_IRQ) TU_LOG3(" RCVDAV");
+  if (hirq & HIRQ_RWU_IRQ)    TU_LOG3(" RWU");
+>>>>>>> Stashed changes
   if (hirq & HIRQ_BUSEVENT_IRQ) TU_LOG3(" BUSEVENT");
 
   TU_LOG3("\r\n");
@@ -947,14 +1239,25 @@ void print_hirq(uint8_t hirq) {
   #define print_hirq(hirq)
 #endif
 
+<<<<<<< Updated upstream
 // Interrupt handler
 void hcd_int_handler(uint8_t rhport, bool in_isr) {
+=======
+// ESP32 out-of-sync
+#if defined(ARDUINO_ARCH_ESP32) && ESP_ARDUINO_VERSION < 0x02000E && !defined(PLATFORMIO)
+void hcd_int_handler_esp32(uint8_t rhport, bool in_isr) {
+#else
+// Interrupt handler
+void hcd_int_handler(uint8_t rhport, bool in_isr) {
+#endif
+>>>>>>> Stashed changes
   uint8_t hirq = reg_read(rhport, HIRQ_ADDR, in_isr) & _hcd_data.hien;
   if (!hirq) return;
 //  print_hirq(hirq);
 
   if (hirq & HIRQ_FRAME_IRQ) {
     _hcd_data.frame_count++;
+<<<<<<< Updated upstream
 
     // reset all endpoints nak counter, retry with 1st pending ep.
     max3421_ep_t* ep_retry = NULL;
@@ -973,6 +1276,8 @@ void hcd_int_handler(uint8_t rhport, bool in_isr) {
     if (ep_retry != NULL && !atomic_flag_test_and_set(&_hcd_data.busy)) {
       xact_generic(rhport, ep_retry, true, in_isr);
     }
+=======
+>>>>>>> Stashed changes
   }
 
   if (hirq & HIRQ_CONDET_IRQ) {
@@ -981,6 +1286,7 @@ void hcd_int_handler(uint8_t rhport, bool in_isr) {
 
   // queue more transfer in handle_xfer_done() can cause hirq to be set again while external IRQ may not catch and/or
   // not call this handler again. So we need to loop until all IRQ are cleared
+<<<<<<< Updated upstream
   while (hirq & (HIRQ_RCVDAV_IRQ | HIRQ_HXFRDN_IRQ)) {
     if (hirq & HIRQ_RCVDAV_IRQ) {
       uint8_t const ep_num = _hcd_data.hxfr & HXFR_EPNUM_MASK;
@@ -992,6 +1298,19 @@ void hcd_int_handler(uint8_t rhport, bool in_isr) {
         uint8_t rcvbc = reg_read(rhport, RCVBC_ADDR, in_isr);
         xact_len = (uint8_t) tu_min16(rcvbc, ep->total_len - ep->xferred_len);
         if (xact_len) {
+=======
+  while ( hirq & (HIRQ_RCVDAV_IRQ | HIRQ_HXFRDN_IRQ) ) {
+    if ( hirq & HIRQ_RCVDAV_IRQ ) {
+      uint8_t const ep_num = _hcd_data.hxfr & HXFR_EPNUM_MASK;
+      max3421_ep_t *ep = find_opened_ep(_hcd_data.peraddr, ep_num, 1);
+      uint8_t xact_len = 0;
+
+      // RCVDAV_IRQ can trigger 2 times (dual buffered)
+      while ( hirq & HIRQ_RCVDAV_IRQ ) {
+        uint8_t rcvbc = reg_read(rhport, RCVBC_ADDR, in_isr);
+        xact_len = (uint8_t) tu_min16(rcvbc, ep->total_len - ep->xferred_len);
+        if ( xact_len ) {
+>>>>>>> Stashed changes
           fifo_read(rhport, ep->buf, xact_len, in_isr);
           ep->buf += xact_len;
           ep->xferred_len += xact_len;
@@ -1002,12 +1321,21 @@ void hcd_int_handler(uint8_t rhport, bool in_isr) {
         hirq = reg_read(rhport, HIRQ_ADDR, in_isr);
       }
 
+<<<<<<< Updated upstream
       if (xact_len < ep->packet_size || ep->xferred_len >= ep->total_len) {
         ep->state = EP_STATE_COMPLETE;
       }
     }
 
     if (hirq & HIRQ_HXFRDN_IRQ) {
+=======
+      if ( xact_len < ep->packet_size || ep->xferred_len >= ep->total_len ) {
+        ep->xfer_complete = 1;
+      }
+    }
+
+    if ( hirq & HIRQ_HXFRDN_IRQ ) {
+>>>>>>> Stashed changes
       hirq_write(rhport, HIRQ_HXFRDN_IRQ, in_isr);
       handle_xfer_done(rhport, in_isr);
     }
@@ -1017,7 +1345,11 @@ void hcd_int_handler(uint8_t rhport, bool in_isr) {
 
   // clear all interrupt except SNDBAV_IRQ (never clear by us). Note RCVDAV_IRQ, HXFRDN_IRQ already clear while processing
   hirq &= (uint8_t) ~HIRQ_SNDBAV_IRQ;
+<<<<<<< Updated upstream
   if (hirq) {
+=======
+  if ( hirq ) {
+>>>>>>> Stashed changes
     hirq_write(rhport, hirq, in_isr);
   }
 }

@@ -36,7 +36,12 @@
 //--------------------------------------------------------------------+
 // TASK API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline void osal_task_delay(uint32_t msec) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline void osal_task_delay(uint32_t msec)
+{
+>>>>>>> Stashed changes
   os_time_delay( os_time_ms_to_ticks32(msec) );
 }
 
@@ -46,6 +51,7 @@ TU_ATTR_ALWAYS_INLINE static inline void osal_task_delay(uint32_t msec) {
 typedef struct os_sem  osal_semaphore_def_t;
 typedef struct os_sem* osal_semaphore_t;
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline osal_semaphore_t osal_semaphore_create(osal_semaphore_def_t* semdef) {
   return (os_sem_init(semdef, 0) == OS_OK) ? (osal_semaphore_t) semdef : NULL;
 }
@@ -56,16 +62,35 @@ TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_delete(osal_semaphore_t 
 }
 
 TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_post(osal_semaphore_t sem_hdl, bool in_isr) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline osal_semaphore_t osal_semaphore_create(osal_semaphore_def_t* semdef)
+{
+  return (os_sem_init(semdef, 0) == OS_OK) ? (osal_semaphore_t) semdef : NULL;
+}
+
+TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_post(osal_semaphore_t sem_hdl, bool in_isr)
+{
+>>>>>>> Stashed changes
   (void) in_isr;
   return os_sem_release(sem_hdl) == OS_OK;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_wait(osal_semaphore_t sem_hdl, uint32_t msec) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_wait(osal_semaphore_t sem_hdl, uint32_t msec)
+{
+>>>>>>> Stashed changes
   uint32_t const ticks = (msec == OSAL_TIMEOUT_WAIT_FOREVER) ? OS_TIMEOUT_NEVER : os_time_ms_to_ticks32(msec);
   return os_sem_pend(sem_hdl, ticks) == OS_OK;
 }
 
+<<<<<<< Updated upstream
 static inline void osal_semaphore_reset(osal_semaphore_t sem_hdl) {
+=======
+static inline void osal_semaphore_reset(osal_semaphore_t sem_hdl)
+{
+>>>>>>> Stashed changes
   // TODO implement later
 }
 
@@ -75,6 +100,7 @@ static inline void osal_semaphore_reset(osal_semaphore_t sem_hdl) {
 typedef struct os_mutex osal_mutex_def_t;
 typedef struct os_mutex* osal_mutex_t;
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline osal_mutex_t osal_mutex_create(osal_mutex_def_t* mdef) {
   return (os_mutex_init(mdef) == OS_OK) ? (osal_mutex_t) mdef : NULL;
 }
@@ -85,11 +111,25 @@ TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_delete(osal_mutex_t mutex_hd
 }
 
 TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_lock(osal_mutex_t mutex_hdl, uint32_t msec) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline osal_mutex_t osal_mutex_create(osal_mutex_def_t* mdef)
+{
+  return (os_mutex_init(mdef) == OS_OK) ? (osal_mutex_t) mdef : NULL;
+}
+
+TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_lock(osal_mutex_t mutex_hdl, uint32_t msec)
+{
+>>>>>>> Stashed changes
   uint32_t const ticks = (msec == OSAL_TIMEOUT_WAIT_FOREVER) ? OS_TIMEOUT_NEVER : os_time_ms_to_ticks32(msec);
   return os_mutex_pend(mutex_hdl, ticks) == OS_OK;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_unlock(osal_mutex_t mutex_hdl) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_unlock(osal_mutex_t mutex_hdl)
+{
+>>>>>>> Stashed changes
   return os_mutex_release(mutex_hdl) == OS_OK;
 }
 
@@ -103,7 +143,12 @@ TU_ATTR_ALWAYS_INLINE static inline bool osal_mutex_unlock(osal_mutex_t mutex_hd
   static struct os_event _name##_##evbuf[_depth];\
   osal_queue_def_t _name = { .depth = _depth, .item_sz = sizeof(_type), .buf = _name##_##buf, .evbuf =  _name##_##evbuf};\
 
+<<<<<<< Updated upstream
 typedef struct {
+=======
+typedef struct
+{
+>>>>>>> Stashed changes
   uint16_t depth;
   uint16_t item_sz;
   void*    buf;
@@ -117,20 +162,32 @@ typedef struct {
 
 typedef osal_queue_def_t* osal_queue_t;
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline osal_queue_t osal_queue_create(osal_queue_def_t* qdef) {
   if ( OS_OK != os_mempool_init(&qdef->mpool, qdef->depth, qdef->item_sz, qdef->buf, "usb queue") ) return NULL;
   if ( OS_OK != os_mempool_init(&qdef->epool, qdef->depth, sizeof(struct os_event), qdef->evbuf, "usb evqueue") ) return NULL;
+=======
+TU_ATTR_ALWAYS_INLINE static inline osal_queue_t osal_queue_create(osal_queue_def_t* qdef)
+{
+  if ( OS_OK != os_mempool_init(&qdef->mpool, qdef->depth, qdef->item_sz, qdef->buf, "usbd queue") ) return NULL;
+  if ( OS_OK != os_mempool_init(&qdef->epool, qdef->depth, sizeof(struct os_event), qdef->evbuf, "usbd evqueue") ) return NULL;
+>>>>>>> Stashed changes
 
   os_eventq_init(&qdef->evq);
   return (osal_queue_t) qdef;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_delete(osal_queue_t qhdl) {
   (void) qhdl;
   return true; // nothing to do
 }
 
 TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_receive(osal_queue_t qhdl, void* data, uint32_t msec) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_receive(osal_queue_t qhdl, void* data, uint32_t msec)
+{
+>>>>>>> Stashed changes
   (void) msec; // os_eventq_get() does not take timeout, always behave as msec = WAIT_FOREVER
 
   struct os_event* ev;
@@ -143,7 +200,12 @@ TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_receive(osal_queue_t qhdl, v
   return true;
 }
 
+<<<<<<< Updated upstream
 static inline bool osal_queue_send(osal_queue_t qhdl, void const * data, bool in_isr) {
+=======
+static inline bool osal_queue_send(osal_queue_t qhdl, void const * data, bool in_isr)
+{
+>>>>>>> Stashed changes
   (void) in_isr;
 
   // get a block from mem pool for data
@@ -153,7 +215,12 @@ static inline bool osal_queue_send(osal_queue_t qhdl, void const * data, bool in
 
   // get a block from event pool to put into queue
   struct os_event* ev = (struct os_event*) os_memblock_get(&qhdl->epool);
+<<<<<<< Updated upstream
   if (!ev) {
+=======
+  if (!ev)
+  {
+>>>>>>> Stashed changes
     os_memblock_put(&qhdl->mpool, ptr);
     return false;
   }
@@ -165,7 +232,12 @@ static inline bool osal_queue_send(osal_queue_t qhdl, void const * data, bool in
   return true;
 }
 
+<<<<<<< Updated upstream
 TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_empty(osal_queue_t qhdl) {
+=======
+TU_ATTR_ALWAYS_INLINE static inline bool osal_queue_empty(osal_queue_t qhdl)
+{
+>>>>>>> Stashed changes
   return STAILQ_EMPTY(&qhdl->evq.evq_list);
 }
 

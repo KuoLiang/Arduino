@@ -760,11 +760,15 @@ static bool _open_vs_itf(uint8_t rhport, videod_streaming_interface_t *stm, uint
   TU_LOG_DRV("    reopen VS %d\r\n", altnum);
   uint8_t const *desc = _videod_itf[stm->index_vc].beg;
 
+<<<<<<< Updated upstream
 #ifndef TUP_DCD_EDPT_ISO_ALLOC
+=======
+>>>>>>> Stashed changes
   /* Close endpoints of previous settings. */
   for (i = 0; i < TU_ARRAY_SIZE(stm->desc.ep); ++i) {
     uint_fast16_t ofs_ep = stm->desc.ep[i];
     if (!ofs_ep) break;
+<<<<<<< Updated upstream
     tusb_desc_endpoint_t const *ep = (tusb_desc_endpoint_t const*)(desc + ofs_ep);
     /* Only ISO endpoints needs to be closed */
     if(ep->bmAttributes.xfer == TUSB_XFER_ISOCHRONOUS) {
@@ -774,6 +778,13 @@ static bool _open_vs_itf(uint8_t rhport, videod_streaming_interface_t *stm, uint
     }
   }
 #endif
+=======
+    uint8_t  ep_adr = _desc_ep_addr(desc + ofs_ep);
+    usbd_edpt_close(rhport, ep_adr);
+    stm->desc.ep[i] = 0;
+    TU_LOG_DRV("    close EP%02x\r\n", ep_adr);
+  }
+>>>>>>> Stashed changes
 
   /* clear transfer management information */
   stm->buffer  = NULL;
@@ -798,6 +809,7 @@ static bool _open_vs_itf(uint8_t rhport, videod_streaming_interface_t *stm, uint
     TU_ASSERT(cur < end);
     tusb_desc_endpoint_t const *ep = (tusb_desc_endpoint_t const*)cur;
     uint_fast32_t max_size = stm->max_payload_transfer_size;
+<<<<<<< Updated upstream
     if (altnum && (TUSB_XFER_ISOCHRONOUS == ep->bmAttributes.xfer)) {
       /* FS must be less than or equal to max packet size */
       TU_VERIFY (tu_edpt_packet_size(ep) >= max_size);
@@ -810,6 +822,18 @@ static bool _open_vs_itf(uint8_t rhport, videod_streaming_interface_t *stm, uint
       TU_VERIFY(TUSB_XFER_BULK == ep->bmAttributes.xfer);
       TU_ASSERT(usbd_edpt_open(rhport, ep));
     }
+=======
+    if (altnum) {
+      if ((TUSB_XFER_ISOCHRONOUS == ep->bmAttributes.xfer) &&
+          (tu_edpt_packet_size(ep) < max_size)) {
+        /* FS must be less than or equal to max packet size */
+        return false;
+      }
+    } else {
+      TU_VERIFY(TUSB_XFER_BULK == ep->bmAttributes.xfer);
+    }
+    TU_ASSERT(usbd_edpt_open(rhport, ep));
+>>>>>>> Stashed changes
     stm->desc.ep[i] = (uint16_t) (cur - desc);
     TU_LOG_DRV("    open EP%02x\r\n", _desc_ep_addr(cur));
   }
@@ -1191,6 +1215,7 @@ bool tud_video_n_streaming(uint_fast8_t ctl_idx, uint_fast8_t stm_idx)
   videod_streaming_interface_t *stm = _get_instance_streaming(ctl_idx, stm_idx);
   if (!stm || !stm->desc.ep[0]) return false;
   if (stm->state == VS_STATE_PROBING) return false;
+<<<<<<< Updated upstream
 
 #ifdef TUP_DCD_EDPT_ISO_ALLOC
   uint8_t const *desc = _videod_itf[stm->index_vc].beg;
@@ -1201,6 +1226,8 @@ bool tud_video_n_streaming(uint_fast8_t ctl_idx, uint_fast8_t stm_idx)
   }
 #endif
 
+=======
+>>>>>>> Stashed changes
   return true;
 }
 
@@ -1251,10 +1278,13 @@ void videod_init(void) {
   }
 }
 
+<<<<<<< Updated upstream
 bool videod_deinit(void) {
   return true;
 }
 
+=======
+>>>>>>> Stashed changes
 void videod_reset(uint8_t rhport) {
   (void) rhport;
   for (uint_fast8_t i = 0; i < CFG_TUD_VIDEO; ++i) {
@@ -1309,6 +1339,7 @@ uint16_t videod_open(uint8_t rhport, tusb_desc_interface_t const * itf_desc, uin
     cur = _next_desc_itf(cur, end);
     stm->desc.end = (uint16_t) ((uintptr_t)cur - (uintptr_t)itf_desc);
     stm->state = VS_STATE_PROBING;
+<<<<<<< Updated upstream
 #ifdef TUP_DCD_EDPT_ISO_ALLOC
     /* Allocate ISO endpoints */
     uint16_t ep_size = 0;
@@ -1327,6 +1358,8 @@ uint16_t videod_open(uint8_t rhport, tusb_desc_interface_t const * itf_desc, uin
     }
     if(ep_addr > 0 && ep_size > 0) usbd_edpt_iso_alloc(rhport, ep_addr, ep_size);
 #endif
+=======
+>>>>>>> Stashed changes
     if (0 == stm_idx && 1 == bInCollection) {
       /* If there is only one streaming interface and no alternate settings,
        * host may not issue set_interface so open the streaming interface here. */

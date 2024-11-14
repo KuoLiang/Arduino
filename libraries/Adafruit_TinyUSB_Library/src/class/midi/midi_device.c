@@ -378,10 +378,19 @@ bool tud_midi_n_packet_write (uint8_t itf, uint8_t const packet[4])
 //--------------------------------------------------------------------+
 // USBD Driver API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 void midid_init(void) {
   tu_memclr(_midid_itf, sizeof(_midid_itf));
 
   for (uint8_t i = 0; i < CFG_TUD_MIDI; i++) {
+=======
+void midid_init(void)
+{
+  tu_memclr(_midid_itf, sizeof(_midid_itf));
+
+  for(uint8_t i=0; i<CFG_TUD_MIDI; i++)
+  {
+>>>>>>> Stashed changes
     midid_interface_t* midi = &_midid_itf[i];
 
     // config fifo
@@ -389,16 +398,22 @@ void midid_init(void) {
     tu_fifo_config(&midi->tx_ff, midi->tx_ff_buf, CFG_TUD_MIDI_TX_BUFSIZE, 1, false); // OBVS.
 
     #if CFG_FIFO_MUTEX
+<<<<<<< Updated upstream
     osal_mutex_t mutex_rd = osal_mutex_create(&midi->rx_ff_mutex);
     osal_mutex_t mutex_wr = osal_mutex_create(&midi->tx_ff_mutex);
     TU_ASSERT(mutex_wr != NULL && mutex_wr != NULL, );
 
     tu_fifo_config_mutex(&midi->rx_ff, NULL, mutex_rd);
     tu_fifo_config_mutex(&midi->tx_ff, mutex_wr, NULL);
+=======
+    tu_fifo_config_mutex(&midi->rx_ff, NULL, osal_mutex_create(&midi->rx_ff_mutex));
+    tu_fifo_config_mutex(&midi->tx_ff, osal_mutex_create(&midi->tx_ff_mutex), NULL);
+>>>>>>> Stashed changes
     #endif
   }
 }
 
+<<<<<<< Updated upstream
 bool midid_deinit(void) {
   #if CFG_FIFO_MUTEX
   for(uint8_t i=0; i<CFG_TUD_MIDI; i++) {
@@ -421,6 +436,8 @@ bool midid_deinit(void) {
   return true;
 }
 
+=======
+>>>>>>> Stashed changes
 void midid_reset(uint8_t rhport)
 {
   (void) rhport;

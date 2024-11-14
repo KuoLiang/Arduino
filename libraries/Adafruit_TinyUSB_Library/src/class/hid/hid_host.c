@@ -227,6 +227,7 @@ bool tuh_hid_set_protocol(uint8_t daddr, uint8_t idx, uint8_t protocol) {
   return _hidh_set_protocol(daddr, p_hid->itf_num, protocol, set_protocol_complete, 0);
 }
 
+<<<<<<< Updated upstream
 static void get_report_complete(tuh_xfer_t* xfer) {
   TU_LOG_DRV("HID Get Report complete\r\n");
 
@@ -271,6 +272,8 @@ bool tuh_hid_get_report(uint8_t daddr, uint8_t idx, uint8_t report_id, uint8_t r
   return tuh_control_xfer(&xfer);
 }
 
+=======
+>>>>>>> Stashed changes
 static void set_report_complete(tuh_xfer_t* xfer) {
   TU_LOG_DRV("HID Set Report complete\r\n");
 
@@ -421,6 +424,7 @@ bool tuh_hid_send_report(uint8_t daddr, uint8_t idx, uint8_t report_id, const vo
 //--------------------------------------------------------------------+
 // USBH API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 bool hidh_init(void) {
   TU_LOG_DRV("sizeof(hidh_interface_t) = %u\r\n", sizeof(hidh_interface_t));
   tu_memclr(_hidh_itf, sizeof(_hidh_itf));
@@ -429,6 +433,10 @@ bool hidh_init(void) {
 
 bool hidh_deinit(void) {
   return true;
+=======
+void hidh_init(void) {
+  tu_memclr(_hidh_itf, sizeof(_hidh_itf));
+>>>>>>> Stashed changes
 }
 
 bool hidh_xfer_cb(uint8_t daddr, uint8_t ep_addr, xfer_result_t result, uint32_t xferred_bytes) {
@@ -459,7 +467,12 @@ void hidh_close(uint8_t daddr) {
     if (p_hid->daddr == daddr) {
       TU_LOG_DRV("  HIDh close addr = %u index = %u\r\n", daddr, i);
       if (tuh_hid_umount_cb) tuh_hid_umount_cb(daddr, i);
+<<<<<<< Updated upstream
       tu_memclr(p_hid, sizeof(hidh_interface_t));
+=======
+      p_hid->daddr = 0;
+      p_hid->mounted = false;
+>>>>>>> Stashed changes
     }
   }
 }

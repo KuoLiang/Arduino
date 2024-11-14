@@ -60,7 +60,11 @@ typedef struct {
   tu_fifo_t ff;
 
   // mutex: read if ep rx, write if e tx
+<<<<<<< Updated upstream
   OSAL_MUTEX_DEF(ff_mutexdef);
+=======
+  OSAL_MUTEX_DEF(ff_mutex);
+>>>>>>> Stashed changes
 
 }tu_edpt_stream_t;
 
@@ -87,6 +91,7 @@ bool tu_edpt_release(tu_edpt_state_t* ep_state, osal_mutex_t mutex);
 // Endpoint Stream
 //--------------------------------------------------------------------+
 
+<<<<<<< Updated upstream
 // Init an endpoint stream
 bool tu_edpt_stream_init(tu_edpt_stream_t* s, bool is_host, bool is_tx, bool overwritable,
                          void* ff_buf, uint16_t ff_bufsize, uint8_t* ep_buf, uint16_t ep_bufsize);
@@ -98,6 +103,17 @@ bool tu_edpt_stream_deinit(tu_edpt_stream_t* s);
 // hwid is either device address (host mode) or rhport (device mode)
 TU_ATTR_ALWAYS_INLINE static inline
 void tu_edpt_stream_open(tu_edpt_stream_t* s, uint8_t hwid, tusb_desc_endpoint_t const *desc_ep) {
+=======
+// Init an stream, should only be called once
+bool tu_edpt_stream_init(tu_edpt_stream_t* s, bool is_host, bool is_tx, bool overwritable,
+                         void* ff_buf, uint16_t ff_bufsize, uint8_t* ep_buf, uint16_t ep_bufsize);
+
+// Open an stream for an endpoint
+// hwid is either device address (host mode) or rhport (device mode)
+TU_ATTR_ALWAYS_INLINE static inline
+void tu_edpt_stream_open(tu_edpt_stream_t* s, uint8_t hwid, tusb_desc_endpoint_t const *desc_ep)
+{
+>>>>>>> Stashed changes
   tu_fifo_clear(&s->ff);
   s->hwid = hwid;
   s->ep_addr = desc_ep->bEndpointAddress;
@@ -105,14 +121,24 @@ void tu_edpt_stream_open(tu_edpt_stream_t* s, uint8_t hwid, tusb_desc_endpoint_t
 }
 
 TU_ATTR_ALWAYS_INLINE static inline
+<<<<<<< Updated upstream
 void tu_edpt_stream_close(tu_edpt_stream_t* s) {
+=======
+void tu_edpt_stream_close(tu_edpt_stream_t* s)
+{
+>>>>>>> Stashed changes
   s->hwid = 0;
   s->ep_addr = 0;
 }
 
 // Clear fifo
 TU_ATTR_ALWAYS_INLINE static inline
+<<<<<<< Updated upstream
 bool tu_edpt_stream_clear(tu_edpt_stream_t* s) {
+=======
+bool tu_edpt_stream_clear(tu_edpt_stream_t* s)
+{
+>>>>>>> Stashed changes
   return tu_fifo_clear(&s->ff);
 }
 
@@ -131,7 +157,12 @@ bool tu_edpt_stream_write_zlp_if_needed(tu_edpt_stream_t* s, uint32_t last_xferr
 
 // Get the number of bytes available for writing
 TU_ATTR_ALWAYS_INLINE static inline
+<<<<<<< Updated upstream
 uint32_t tu_edpt_stream_write_available(tu_edpt_stream_t* s) {
+=======
+uint32_t tu_edpt_stream_write_available(tu_edpt_stream_t* s)
+{
+>>>>>>> Stashed changes
   return (uint32_t) tu_fifo_remaining(&s->ff);
 }
 

@@ -29,7 +29,11 @@
 
 // Create 2nd instance of CDC Ports.
 #ifdef ARDUINO_ARCH_ESP32
+<<<<<<< Updated upstream
   #error "Currently multiple CDCs on ESP32-Sx is not yet supported. An PR to update core/esp32/USBCDC and/or pre-built libusb are needed."
+=======
+  #error "Currnetly multiple CDCs on ESP32-Sx is not yet supported. An PR to update core/esp32/USBCDC and/or pre-built libusb are needed."
+>>>>>>> Stashed changes
   // for ESP32, we need to specify instance number when declaring object
   Adafruit_USBD_CDC USBSer1(1);
 #else

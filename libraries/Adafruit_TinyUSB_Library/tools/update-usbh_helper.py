@@ -24,6 +24,9 @@ def main(dir):
             click.echo(f"Updating {f}")
             shutil.copy(sample_file, f)
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 if __name__ == '__main__':
     main()

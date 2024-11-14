@@ -97,6 +97,7 @@ bool tud_bt_acl_data_send(void *event, uint16_t event_len)
 //--------------------------------------------------------------------+
 // USBD Driver API
 //--------------------------------------------------------------------+
+<<<<<<< Updated upstream
 void btd_init(void) {
   tu_memclr(&_btd_itf, sizeof(_btd_itf));
 }
@@ -105,6 +106,13 @@ bool btd_deinit(void) {
   return true;
 }
 
+=======
+void btd_init(void)
+{
+  tu_memclr(&_btd_itf, sizeof(_btd_itf));
+}
+
+>>>>>>> Stashed changes
 void btd_reset(uint8_t rhport)
 {
   (void)rhport;

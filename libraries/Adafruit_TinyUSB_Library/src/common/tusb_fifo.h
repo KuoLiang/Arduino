@@ -102,8 +102,15 @@ extern "C" {
  *                  |
  *      -------------------------
  *      | R | 1 | 2 | W | 4 | 5 |
+<<<<<<< Updated upstream
  */
 typedef struct {
+=======
+
+ */
+typedef struct
+{
+>>>>>>> Stashed changes
   uint8_t* buffer          ; // buffer pointer
   uint16_t depth           ; // max items
 
@@ -122,14 +129,24 @@ typedef struct {
 
 } tu_fifo_t;
 
+<<<<<<< Updated upstream
 typedef struct {
+=======
+typedef struct
+{
+>>>>>>> Stashed changes
   uint16_t len_lin  ; ///< linear length in item size
   uint16_t len_wrap ; ///< wrapped length in item size
   void * ptr_lin    ; ///< linear part start pointer
   void * ptr_wrap   ; ///< wrapped part start pointer
 } tu_fifo_buffer_info_t;
 
+<<<<<<< Updated upstream
 #define TU_FIFO_INIT(_buffer, _depth, _type, _overwritable){\
+=======
+#define TU_FIFO_INIT(_buffer, _depth, _type, _overwritable) \
+{                                                           \
+>>>>>>> Stashed changes
   .buffer               = _buffer,                          \
   .depth                = _depth,                           \
   .item_size            = sizeof(_type),                    \
@@ -140,22 +157,40 @@ typedef struct {
     uint8_t _name##_buf[_depth*sizeof(_type)];                                \
     tu_fifo_t _name = TU_FIFO_INIT(_name##_buf, _depth, _type, _overwritable)
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 bool tu_fifo_set_overwritable(tu_fifo_t *f, bool overwritable);
 bool tu_fifo_clear(tu_fifo_t *f);
 bool tu_fifo_config(tu_fifo_t *f, void* buffer, uint16_t depth, uint16_t item_size, bool overwritable);
 
 #if OSAL_MUTEX_REQUIRED
 TU_ATTR_ALWAYS_INLINE static inline
+<<<<<<< Updated upstream
 void tu_fifo_config_mutex(tu_fifo_t *f, osal_mutex_t wr_mutex, osal_mutex_t rd_mutex) {
   f->mutex_wr = wr_mutex;
   f->mutex_rd = rd_mutex;
 }
 #else
 #define tu_fifo_config_mutex(_f, _wr_mutex, _rd_mutex)
+=======
+void tu_fifo_config_mutex(tu_fifo_t *f, osal_mutex_t wr_mutex, osal_mutex_t rd_mutex)
+{
+  f->mutex_wr = wr_mutex;
+  f->mutex_rd = rd_mutex;
+}
+
+#else
+
+#define tu_fifo_config_mutex(_f, _wr_mutex, _rd_mutex)
+
+>>>>>>> Stashed changes
 #endif
 
 bool     tu_fifo_write                  (tu_fifo_t* f, void const * p_data);
 uint16_t tu_fifo_write_n                (tu_fifo_t* f, void const * p_data, uint16_t n);
+<<<<<<< Updated upstream
 #ifdef TUP_MEM_CONST_ADDR
 uint16_t tu_fifo_write_n_const_addr_full_words    (tu_fifo_t* f, const void * data, uint16_t n);
 #endif
@@ -165,6 +200,13 @@ uint16_t tu_fifo_read_n                 (tu_fifo_t* f, void * p_buffer, uint16_t
 #ifdef TUP_MEM_CONST_ADDR
 uint16_t tu_fifo_read_n_const_addr_full_words     (tu_fifo_t* f, void * buffer, uint16_t n);
 #endif
+=======
+uint16_t tu_fifo_write_n_const_addr_full_words    (tu_fifo_t* f, const void * data, uint16_t n);
+
+bool     tu_fifo_read                   (tu_fifo_t* f, void * p_buffer);
+uint16_t tu_fifo_read_n                 (tu_fifo_t* f, void * p_buffer, uint16_t n);
+uint16_t tu_fifo_read_n_const_addr_full_words     (tu_fifo_t* f, void * buffer, uint16_t n);
+>>>>>>> Stashed changes
 
 bool     tu_fifo_peek                   (tu_fifo_t* f, void * p_buffer);
 uint16_t tu_fifo_peek_n                 (tu_fifo_t* f, void * p_buffer, uint16_t n);
@@ -177,7 +219,12 @@ bool     tu_fifo_overflowed             (tu_fifo_t* f);
 void     tu_fifo_correct_read_pointer   (tu_fifo_t* f);
 
 TU_ATTR_ALWAYS_INLINE static inline
+<<<<<<< Updated upstream
 uint16_t tu_fifo_depth(tu_fifo_t* f) {
+=======
+uint16_t tu_fifo_depth(tu_fifo_t* f)
+{
+>>>>>>> Stashed changes
   return f->depth;
 }
 
@@ -192,6 +239,10 @@ void tu_fifo_advance_read_pointer (tu_fifo_t *f, uint16_t n);
 void tu_fifo_get_read_info (tu_fifo_t *f, tu_fifo_buffer_info_t *info);
 void tu_fifo_get_write_info(tu_fifo_t *f, tu_fifo_buffer_info_t *info);
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 #ifdef __cplusplus
 }
 #endif
