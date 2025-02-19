@@ -3,8 +3,8 @@
  * @brief Arduino library for interface with DHT22 sensor 
  * @n without use of pointers.
  * @author dvarrel
- * @version  1.0.4
- * @date  2023-04-15
+ * @version  1.0.7
+ * @date  2024-10-05
  * @url https://github.com/dvarrel/DHT22.git
  */
 #ifndef _DHT22_H
@@ -52,8 +52,18 @@ class DHT22{
     /** @return humidity %rH **/
     float getHumidity();
     
-    /** @return temperature in °C **/
-    float getTemperature();
+    /** if M=true, return temperature in °C, else in °F **/
+    /** @return temperature in °C or °F **/
+    float getTemperature(bool M = true);
+
+    /** @return temp in °C **/
+    float convertCtoF(float);
+
+    /** @return temp in °F **/
+    float convertFtoC(float);
+
+    /** @return heat index in °C or °F **/
+    float getHeatIndex(float t, float h, bool isCelsius = true);
 
     /** @return code from last readSensor() request **/
 	  uint8_t getLastError();

@@ -130,13 +130,13 @@ void systemResetCallback()
 #ifndef ESP32 
 	for (byte i = 0; i < TOTAL_PINS; i++) 
 	{
-		if (IS_PIN_ANALOG(i)) 
+		if (FIRMATA_IS_PIN_ANALOG(i)) 
 		{
 			Firmata.setPinMode(i, PIN_MODE_ANALOG);
 		} 
 		else if (IS_PIN_DIGITAL(i)) 
 		{
-			Firmata.setPinMode(i, PIN_MODE_OUTPUT);
+			Firmata.setPinMode  (i, PIN_MODE_OUTPUT);
 		}
 	}
 #endif
