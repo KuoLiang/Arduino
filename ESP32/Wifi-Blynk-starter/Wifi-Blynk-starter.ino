@@ -19,8 +19,8 @@
 
 // Your WiFi credentials.
 // Set password to "" for open networks.
-char ssid[] = "RyanRoy";
-char pass[] = "klou802827";
+char ssid[] = "1111";
+char pass[] = "k1111111";
 
 BlynkTimer timer;
 

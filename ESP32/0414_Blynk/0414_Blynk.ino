@@ -21,8 +21,8 @@
 #include <LiquidCrystal_I2C.h>
 // Your WiFi credentials.
 // Set password to "" for open networks.
-char ssid[] = "RyanRoy";
-char pass[] = "klou802827";
+char ssid[] = "1111";
+char pass[] = "11111111";
 
 BlynkTimer timer;
 
